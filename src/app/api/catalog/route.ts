@@ -18,7 +18,7 @@ export async function GET() {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
           Accept: 'application/vnd.github+json',
         },
-        next: { revalidate: 60 },
+        next: { revalidate: 60 }, // refresh every 60 seconds
       }
     )
 
