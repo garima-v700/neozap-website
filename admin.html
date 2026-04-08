@@ -268,6 +268,8 @@ input:checked+.tslider:before { transform:translateX(17px); }
     <div class="nav-item" onclick="nav('bestsellers')"><span class="nav-icon">⭐</span>Bestsellers & Order</div>
     <div class="nav-section">Content</div>
     <div class="nav-item" onclick="nav('reviews')"><span class="nav-icon">💬</span>Reviews<span class="nav-badge" id="nb-reviews">0</span></div>
+    <div class="nav-section">Import</div>
+    <div class="nav-item" onclick="openCCImport()"><span class="nav-icon">🔄</span>Import from CarbonCraft</div>
     <div class="nav-section">Data</div>
     <div class="nav-item" onclick="exportJSON()"><span class="nav-icon">↓</span>Export JSON</div>
     <div class="nav-item" onclick="openImportJSON()"><span class="nav-icon">↑</span>Import JSON</div>
@@ -624,6 +626,87 @@ input:checked+.tslider:before { transform:translateX(17px); }
       <input type="file" id="json-file" accept=".json" style="display:none" onchange="handleJSONImport(this)">
       <div class="import-icon">📁</div><div class="import-title">Upload JSON file</div><div class="import-sub">Previously exported NeoZAP data</div>
     </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ═══ CARBONCRAFT IMPORT MODAL ═══ -->
+<div class="overlay" id="modal-cc">
+<div class="modal modal-md">
+  <div class="modal-hdr">
+    <div class="modal-title">🔄 Import from CarbonCraft API</div>
+    <button class="modal-close" onclick="closeModal('modal-cc')">✕</button>
+  </div>
+  <div class="modal-body" style="max-height:none;">
+    <div class="info-box" style="margin-bottom:16px;">
+      ℹ️ This will fetch all products from <strong>carboncraft.in/api/products/catalog</strong> and import them into the admin panel. Existing cards with matching IDs will be updated. New cards will be added.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+      <div class="f-group">
+        <label class="f-label">Default Price (₹) <span class="req">*</span></label>
+        <input class="f-input" id="cc-price" type="number" value="3999" placeholder="e.g. 3999">
+        <div class="f-hint">Applied to all imported cards</div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Default Discounted Price (₹)</label>
+        <input class="f-input" id="cc-dprice" type="number" value="1699" placeholder="e.g. 1699">
+        <div class="f-hint">Leave blank for no discount</div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Map "laser" category to</label>
+        <select class="f-select" id="cc-laser-cat">
+          <option value="laser">Keep as "laser"</option>
+          <option value="exclusive">Exclusive</option>
+          <option value="cards">Cards</option>
+          <option value="animals">Animals</option>
+          <option value="anime">Anime</option>
+          <option value="royal">Royal</option>
+          <option value="signature">Signature</option>
+          <option value="abstract">Abstract</option>
+          <option value="games">Games</option>
+        </select>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Map "color" category to</label>
+        <select class="f-select" id="cc-color-cat">
+          <option value="color">Keep as "color"</option>
+          <option value="exclusive">Exclusive</option>
+          <option value="cards">Cards</option>
+          <option value="animals">Animals</option>
+          <option value="anime">Anime</option>
+          <option value="royal">Royal</option>
+          <option value="signature">Signature</option>
+          <option value="abstract">Abstract</option>
+          <option value="games">Games</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="toggle-row" style="margin-bottom:12px;">
+      <div><div class="toggle-row-label">Skip cards that already exist</div><div class="toggle-row-sub">Only import new products, don't overwrite existing ones</div></div>
+      <label class="toggle"><input type="checkbox" id="cc-skip-existing" checked><span class="tslider"></span></label>
+    </div>
+    <div class="toggle-row" style="margin-bottom:16px;">
+      <div><div class="toggle-row-label">Import variant images as colour options</div><div class="toggle-row-sub">Each variant image becomes a colour swatch on the product page</div></div>
+      <label class="toggle"><input type="checkbox" id="cc-import-variants" checked><span class="tslider"></span></label>
+    </div>
+
+    <!-- Preview area -->
+    <div id="cc-preview" style="display:none;">
+      <div class="divider"></div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Preview</div>
+      <div class="import-stats" id="cc-stats"></div>
+      <div class="import-preview" id="cc-table" style="margin-top:10px;max-height:200px;overflow-y:auto;"></div>
+    </div>
+
+    <div id="cc-error" style="display:none;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:12px 14px;font-size:13px;color:#f87171;margin-top:10px;"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-cc')">Cancel</button>
+    <button class="btn btn-ghost" id="cc-fetch-btn" onclick="fetchCCData()">🔍 Preview Import</button>
+    <button class="btn btn-primary" id="cc-import-btn" style="display:none;" onclick="applyCCImport()">✓ Import All</button>
   </div>
 </div>
 </div>
@@ -1575,6 +1658,228 @@ async function publishToWebsite() {
     toast('Could not reach publish endpoint', '⚠️');
     console.error(e);
   }
+}
+
+
+// ═══════════════════════════════════════════════════════
+// CARBONCRAFT API IMPORT
+// ═══════════════════════════════════════════════════════
+var CC_API = 'https://carboncraft.in/api/products/catalog';
+var ccFetchedProducts = [];
+
+function openCCImport() {
+  ccFetchedProducts = [];
+  document.getElementById('cc-preview').style.display = 'none';
+  document.getElementById('cc-error').style.display = 'none';
+  document.getElementById('cc-import-btn').style.display = 'none';
+  document.getElementById('cc-fetch-btn').textContent = '🔍 Preview Import';
+  document.getElementById('cc-fetch-btn').disabled = false;
+
+  // Populate category selects with current categories
+  ['cc-laser-cat','cc-color-cat'].forEach(function(id) {
+    var sel = document.getElementById(id);
+    var cur = sel.value;
+    // Keep first 2 default options then add custom cats
+    while(sel.options.length > 9) sel.remove(9);
+    DB.categories.forEach(function(c) {
+      if(!['exclusive','cards','animals','anime','royal','signature','abstract','games','laser','color'].includes(c.id)) {
+        var opt = document.createElement('option');
+        opt.value = c.id; opt.textContent = c.label;
+        sel.appendChild(opt);
+      }
+    });
+    sel.value = cur;
+  });
+
+  document.getElementById('modal-cc').classList.add('open');
+}
+
+// Pretty-print product name from snake_case
+function prettifyName(name) {
+  return name
+    .replace(/_/g, ' ')
+    .replace(/\w/g, function(c) { return c.toUpperCase(); })
+    .replace(/\s+\d+$/, '') // remove trailing numbers like "_1"
+    .trim();
+}
+
+// Extract colour name from variant filename
+function variantToColorName(url) {
+  var filename = url.split('/').pop().replace(/\.[^.]+$/, '');
+  // Remove UUID suffixes like _abc123de-...
+  filename = filename.replace(/_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, '');
+  // Split by camelCase and underscores
+  return filename
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/_/g, ' ')
+    .replace(/^[A-Z][a-z]+\s/, '') // remove product name prefix
+    .trim() || 'Variant';
+}
+
+// Guess a hex colour from variant name
+var COLOR_HEX_MAP = {
+  'black': '#1a1a1a', 'matte black': '#1a1a1a', 'mirror black': '#2a2a2a',
+  'brass': '#b5a642', 'gold': '#c8a84b', 'mirror gold': '#d4af37', 'brushed gold': '#c8a84b',
+  'silver': '#c0c0c0', 'mirror silver': '#c0c0c0',
+  'carbon': '#2c2c2c', 'carbon fiber': '#2c2c2c',
+  'blue': '#1e3a8a', 'mirror blue': '#1d4ed8', 'brushed blue': '#2563eb', 'sapphire blue': '#1e40af', 'sapphire': '#1e40af',
+  'red': '#dc2626', 'rose gold': '#b76e79', 'rainbow': 'linear-gradient(90deg,red,orange,yellow,green,blue,purple)',
+  'white': '#f0f0f0', 'neo': '#84cc16', 'neo lime': '#84cc16', 'green': '#16a34a',
+  'textured': '#3a3a3a', 'brushed': '#888888',
+};
+
+function guessHex(colorName) {
+  var lower = colorName.toLowerCase().trim();
+  for (var key in COLOR_HEX_MAP) {
+    if (lower.includes(key)) return COLOR_HEX_MAP[key];
+  }
+  return '#888888';
+}
+
+async function fetchCCData() {
+  var btn = document.getElementById('cc-fetch-btn');
+  btn.textContent = 'Fetching...';
+  btn.disabled = true;
+  document.getElementById('cc-error').style.display = 'none';
+
+  try {
+    var res = await fetch(CC_API);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var data = await res.json();
+    ccFetchedProducts = data.products || [];
+
+    if (!ccFetchedProducts.length) {
+      showCCError('No products found in the API response.');
+      return;
+    }
+
+    // Build preview
+    var skipExisting = document.getElementById('cc-skip-existing').checked;
+    var laserCat = document.getElementById('cc-laser-cat').value;
+    var colorCat = document.getElementById('cc-color-cat').value;
+
+    var newCount = 0, updateCount = 0, skipCount = 0;
+    var previewRows = '';
+
+    ccFetchedProducts.forEach(function(p) {
+      var exists = DB.cards.find(function(c) { return c.id === p.id; });
+      if (skipExisting && exists) { skipCount++; return; }
+      if (exists) updateCount++; else newCount++;
+
+      var mappedCat = p.category === 'laser' ? laserCat : colorCat;
+      var varCount = (p.images.variants || []).length;
+      previewRows += '<tr>'
+        + '<td>' + p.id + '</td>'
+        + '<td>' + prettifyName(p.name) + '</td>'
+        + '<td><span class="tag tag-cat">' + mappedCat + '</span></td>'
+        + '<td>' + varCount + ' variants</td>'
+        + '<td>' + (exists ? '<span style="color:var(--warning);">Update</span>' : '<span style="color:var(--success);">New</span>') + '</td>'
+        + '</tr>';
+    });
+
+    document.getElementById('cc-stats').innerHTML =
+      '<div class="import-stat"><strong>' + ccFetchedProducts.length + '</strong>total</div>'
+      + '<div class="import-stat"><strong>' + newCount + '</strong>new</div>'
+      + '<div class="import-stat"><strong>' + updateCount + '</strong>updates</div>'
+      + '<div class="import-stat"><strong>' + skipCount + '</strong>skipped</div>';
+
+    document.getElementById('cc-table').innerHTML =
+      '<table><thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Variants</th><th>Status</th></tr></thead>'
+      + '<tbody>' + previewRows + '</tbody></table>';
+
+    document.getElementById('cc-preview').style.display = 'block';
+    document.getElementById('cc-import-btn').style.display = '';
+    btn.textContent = '🔍 Re-fetch';
+    btn.disabled = false;
+
+  } catch(e) {
+    showCCError('Failed to fetch: ' + e.message + '. Make sure the API is accessible.');
+    btn.textContent = '🔍 Preview Import';
+    btn.disabled = false;
+  }
+}
+
+function showCCError(msg) {
+  var el = document.getElementById('cc-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function applyCCImport() {
+  if (!ccFetchedProducts.length) return;
+
+  var price    = parseFloat(document.getElementById('cc-price').value)  || 3999;
+  var dprice   = parseFloat(document.getElementById('cc-dprice').value) || null;
+  var laserCat = document.getElementById('cc-laser-cat').value;
+  var colorCat = document.getElementById('cc-color-cat').value;
+  var skipExisting    = document.getElementById('cc-skip-existing').checked;
+  var importVariants  = document.getElementById('cc-import-variants').checked;
+
+  var disc = (price && dprice) ? Math.round((1 - dprice / price) * 100) : null;
+  var added = 0, updated = 0;
+
+  ccFetchedProducts.forEach(function(p) {
+    var existing = DB.cards.find(function(c) { return c.id === p.id; });
+    if (skipExisting && existing) return;
+
+    var mappedCat = p.category === 'laser' ? laserCat : colorCat;
+    var cleanName = prettifyName(p.name);
+
+    // Build colour variants from variant images
+    var colors = [];
+    if (importVariants && p.images.variants && p.images.variants.length) {
+      colors = p.images.variants.map(function(url) {
+        var cName = variantToColorName(url);
+        return { hex: guessHex(cName), name: cName };
+      });
+    }
+
+    var card = {
+      id:         p.id,
+      name:       cleanName,
+      category:   mappedCat,
+      sku:        p.name, // original slug as SKU
+      price:      price,
+      dprice:     dprice,
+      disc:       disc,
+      desc:       '',
+      features:   [],
+      bestseller: existing ? existing.bestseller : false,
+      priority:   existing ? existing.priority   : null,
+      colors:     existing ? existing.colors      : colors,
+      reviews:    existing ? existing.reviews     : [],
+      imgCol:     p.images.main,
+      imgChip:    p.images.variants && p.images.variants.length ? p.images.variants[0] : p.images.main,
+      imgBack:    existing ? existing.imgBack     : null,
+    };
+
+    if (existing) {
+      // Update — preserve manual fields, refresh images and name
+      var idx = DB.cards.findIndex(function(c) { return c.id === p.id; });
+      // Only update image and name fields, keep everything else the admin set
+      DB.cards[idx].name    = cleanName;
+      DB.cards[idx].imgCol  = p.images.main;
+      DB.cards[idx].imgChip = card.imgChip;
+      DB.cards[idx].category = mappedCat;
+      if (!DB.cards[idx].colors || !DB.cards[idx].colors.length) {
+        DB.cards[idx].colors = colors;
+      }
+      updated++;
+    } else {
+      // Ensure unique ID
+      if (DB.nextId <= p.id) DB.nextId = p.id + 1;
+      DB.cards.push(card);
+      added++;
+    }
+  });
+
+  persist();
+  closeModal('modal-cc');
+  renderDashboard();
+  renderCards();
+  updateBadges();
+  toast(added + ' cards imported, ' + updated + ' updated! ✓');
+  ccFetchedProducts = [];
 }
 
 // ═══════════════════════════════════════════════════════
