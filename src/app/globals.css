@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500&family=Roboto:wght@400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #040404;
+  --bg-dark: #080808;
+  --surface: #0a0a0a;
+  --border: rgba(255,255,255,0.06);
+  --text: #ffffff;
+  --muted: #9ca3af;
+  --accent-blue: rgb(29,69,152);
+  --accent-blue2: rgb(105,137,205);
+  --gold-gradient: linear-gradient(115.58deg,#ad8e43 1.97%,#e0d484 45.28%,#a38847 97.8%);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  min-width: 320px;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  background: var(--surface);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  padding: 0 60px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 25px;
+  background: linear-gradient(95.32deg, rgb(237,237,239) 3.75%, rgb(97,95,105) 95.24%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-link {
+  margin-left: 48px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #d1d5db;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.nav-link:hover { opacity: 1; }
+
+.nav-buy-btn {
+  margin-left: auto;
+  background: white;
+  border: 1px solid white;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: black;
+  cursor: pointer;
+  width: 152px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s;
+}
+.nav-buy-btn:hover { opacity: 0.88; }
+
+/* ── FOOTER ── */
+.footer-logo-text {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(95.22deg, rgb(237,237,239) 3.75%, rgb(97,95,105) 95.24%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── STICKY CTA ── */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.cta-timer-band {
+  background: linear-gradient(157.65deg, rgb(29,69,152) 27.25%, rgb(105,137,205) 4.88%, rgb(29,69,152) 28.57%);
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cta-offer-band {
+  background: black;
+  height: 53px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── BLUE GRADIENT BUTTON ── */
+.btn-blue-gradient {
+  background: linear-gradient(106.76deg, rgb(29,69,152) 10%, rgb(105,137,205) 50%, rgb(29,69,152) 90%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s;
+}
+.btn-blue-gradient:hover { opacity: 0.9; }
+
+/* ── STAR RATING ── */
+.star-filled { color: #f59e0b; }
+.star-empty  { color: #444; }
+
+/* ── UTILS ── */
+.text-gradient-silver {
+  background: linear-gradient(179.76deg, rgb(237,237,239) 4.74%, rgb(97,95,105) 93.73%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

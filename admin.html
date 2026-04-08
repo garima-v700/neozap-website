@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeoZAP Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0f; --surface: #18181b; --surface2: #1f1f23; --surface3: #26262b;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+  --text: #f4f4f5; --muted: #71717a; --muted2: #52525b;
+  --accent: #3b82f6; --accent-h: #2563eb;
+  --danger: #ef4444; --success: #22c55e; --warning: #f59e0b; --purple: #8b5cf6;
+  --radius: 10px;
+}
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:14px; min-height:100vh; display:flex; overflow:hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar { width:230px; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; flex-shrink:0; height:100vh; overflow-y:auto; }
+.sidebar-logo { padding:22px 18px 16px; border-bottom:1px solid var(--border); }
+.logo-text { font-size:19px; font-weight:700; background:linear-gradient(95deg,#e2e2e4,#6b6975); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.logo-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.sidebar-nav { padding:10px 8px; flex:1; }
+.nav-section { font-size:10px; font-weight:700; color:var(--muted2); text-transform:uppercase; letter-spacing:.06em; padding:8px 10px 4px; }
+.nav-item { display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:7px; cursor:pointer; color:var(--muted); font-size:13px; font-weight:500; transition:all .15s; margin-bottom:1px; }
+.nav-item:hover { background:var(--surface2); color:var(--text); }
+.nav-item.active { background:rgba(59,130,246,.12); color:var(--accent); }
+.nav-icon { font-size:14px; width:18px; text-align:center; }
+.nav-badge { margin-left:auto; background:var(--accent); color:white; font-size:10px; font-weight:700; border-radius:10px; padding:1px 6px; }
+.sidebar-footer { padding:14px 18px; border-top:1px solid var(--border); font-size:11px; color:var(--muted); }
+
+/* ── MAIN ── */
+.main { flex:1; display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.topbar { height:56px; background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 24px; gap:12px; flex-shrink:0; }
+.topbar-title { font-size:15px; font-weight:600; flex:1; }
+.topbar-actions { display:flex; gap:8px; }
+.content { flex:1; overflow-y:auto; padding:24px; }
+
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:7px; font-size:13px; font-weight:500; cursor:pointer; border:none; font-family:'Inter',sans-serif; transition:all .15s; white-space:nowrap; }
+.btn-primary { background:var(--accent); color:white; }
+.btn-primary:hover { background:var(--accent-h); }
+.btn-ghost { background:transparent; color:var(--muted); border:1px solid var(--border2); }
+.btn-ghost:hover { background:var(--surface2); color:var(--text); }
+.btn-danger { background:rgba(239,68,68,.1); color:var(--danger); border:1px solid rgba(239,68,68,.2); }
+.btn-danger:hover { background:rgba(239,68,68,.18); }
+.btn-warning { background:rgba(245,158,11,.1); color:var(--warning); border:1px solid rgba(245,158,11,.2); }
+.btn-success { background:rgba(34,197,94,.1); color:var(--success); border:1px solid rgba(34,197,94,.2); }
+.btn-sm { padding:5px 10px; font-size:12px; border-radius:6px; }
+.btn-xs { padding:3px 8px; font-size:11px; border-radius:5px; }
+.btn-icon { padding:6px; border-radius:6px; }
+
+/* ── VIEWS ── */
+.view { display:none; }
+.view.active { display:block; }
+
+/* ── STATS ── */
+.stats-row { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:24px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; }
+.stat-label { font-size:11px; color:var(--muted); margin-bottom:5px; text-transform:uppercase; letter-spacing:.04em; font-weight:600; }
+.stat-val { font-size:26px; font-weight:700; line-height:1; }
+.stat-sub { font-size:11px; color:var(--muted); margin-top:5px; }
+.stat-sub.green { color:var(--success); }
+
+/* ── CARDS GRID ── */
+.section-hdr { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.section-title { font-size:14px; font-weight:600; flex:1; }
+.card-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.prod-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .15s; }
+.prod-card:hover { border-color:var(--border2); }
+.prod-card-img { height:150px; background:linear-gradient(135deg,#1a1a2e,#16213e); position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.prod-card-img img { width:100%; height:100%; object-fit:cover; }
+.img-placeholder { color:var(--muted); font-size:28px; }
+.badge-disc { position:absolute; top:8px; left:8px; background:rgba(0,0,0,.65); border:1px solid var(--border2); border-radius:4px; padding:2px 7px; font-size:10px; font-weight:700; color:var(--warning); }
+.badge-bs { position:absolute; top:8px; right:8px; background:rgba(245,158,11,.2); border:1px solid rgba(245,158,11,.35); border-radius:4px; padding:2px 7px; font-size:10px; font-weight:700; color:var(--warning); }
+.prod-card-body { padding:12px; }
+.prod-card-name { font-size:14px; font-weight:600; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.prod-card-meta { display:flex; align-items:center; gap:6px; margin-bottom:8px; flex-wrap:wrap; }
+.tag { font-size:11px; padding:2px 7px; border-radius:20px; font-weight:500; }
+.tag-cat { background:rgba(59,130,246,.12); color:#60a5fa; border:1px solid rgba(59,130,246,.2); }
+.tag-pri { background:rgba(139,92,246,.12); color:#a78bfa; border:1px solid rgba(139,92,246,.2); }
+.prod-prices { font-size:13px; margin-bottom:8px; display:flex; align-items:baseline; gap:6px; }
+.price-now { font-weight:700; font-size:14px; }
+.price-old { color:var(--muted); text-decoration:line-through; font-size:11px; }
+.price-disc { color:var(--success); font-size:11px; }
+.prod-colors { display:flex; gap:4px; margin-bottom:10px; flex-wrap:wrap; }
+.cdot { width:14px; height:14px; border-radius:50%; border:2px solid rgba(255,255,255,.2); cursor:default; }
+.prod-actions { display:flex; gap:6px; }
+.star-row { color:var(--warning); font-size:12px; margin-bottom:8px; }
+
+/* ── TABLES ── */
+.tbl-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+table { width:100%; border-collapse:collapse; }
+th { background:var(--surface2); padding:10px 14px; text-align:left; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid var(--border); white-space:nowrap; }
+td { padding:10px 14px; border-bottom:1px solid var(--border); font-size:13px; vertical-align:middle; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(255,255,255,.015); }
+.td-img { width:44px; height:32px; border-radius:5px; object-fit:cover; background:linear-gradient(135deg,#1a1a2e,#16213e); display:block; flex-shrink:0; }
+input[type=checkbox].row-check { width:15px; height:15px; cursor:pointer; accent-color:var(--accent); }
+
+/* ── BULK EDIT TABLE ── */
+.bulk-table-wrap { overflow-x:auto; }
+.bulk-table { min-width:1100px; }
+.bulk-table td input, .bulk-table td select { background:var(--surface2); border:1px solid var(--border); border-radius:5px; padding:5px 8px; color:var(--text); font-family:'Inter',sans-serif; font-size:12px; width:100%; outline:none; }
+.bulk-table td input:focus, .bulk-table td select:focus { border-color:var(--accent); }
+.bulk-table td { padding:6px 10px; }
+
+/* ── MODAL ── */
+.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.78); z-index:1000; align-items:flex-start; justify-content:center; overflow-y:auto; padding:20px; }
+.overlay.open { display:flex; }
+.modal { background:var(--surface); border:1px solid var(--border2); border-radius:14px; width:900px; max-width:100%; margin:auto; }
+.modal-sm { width:500px; }
+.modal-md { width:660px; }
+.modal-hdr { padding:20px 22px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--surface); z-index:2; border-radius:14px 14px 0 0; }
+.modal-title { font-size:15px; font-weight:600; }
+.modal-close { background:none; border:none; color:var(--muted); font-size:18px; cursor:pointer; padding:4px 7px; border-radius:5px; }
+.modal-close:hover { background:var(--surface2); color:var(--text); }
+.modal-body { padding:22px; max-height:70vh; overflow-y:auto; }
+.modal-footer { padding:16px 22px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; border-radius:0 0 14px 14px; }
+
+/* ── TABS ── */
+.tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:18px; gap:0; }
+.tab { padding:9px 18px; font-size:13px; font-weight:500; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .15s; }
+.tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab:hover:not(.active) { color:var(--text); }
+
+/* ── FORM ── */
+.fg { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.fg-full { grid-column:1/-1; }
+.f-group { display:flex; flex-direction:column; gap:5px; }
+.f-label { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.f-label .req { color:var(--danger); }
+.f-input,.f-select,.f-textarea { background:var(--surface2); border:1px solid var(--border2); border-radius:7px; padding:8px 11px; color:var(--text); font-family:'Inter',sans-serif; font-size:13px; outline:none; transition:border-color .15s; width:100%; }
+.f-input:focus,.f-select:focus,.f-textarea:focus { border-color:var(--accent); }
+.f-textarea { resize:vertical; min-height:75px; }
+.f-hint { font-size:11px; color:var(--muted); }
+.f-select option { background:var(--surface2); }
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:11px 12px; background:var(--surface2); border:1px solid var(--border); border-radius:7px; }
+.toggle-row-label { font-size:13px; font-weight:500; }
+.toggle-row-sub { font-size:11px; color:var(--muted); }
+.toggle { position:relative; display:inline-block; width:38px; height:21px; }
+.toggle input { opacity:0; width:0; height:0; }
+.tslider { position:absolute; cursor:pointer; inset:0; background:#333; border-radius:21px; transition:.2s; }
+.tslider:before { position:absolute; content:""; height:15px; width:15px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.2s; }
+input:checked+.tslider { background:var(--accent); }
+input:checked+.tslider:before { transform:translateX(17px); }
+
+/* ── UPLOAD ── */
+.uz { border:2px dashed var(--border2); border-radius:8px; padding:20px; text-align:center; cursor:pointer; transition:all .15s; position:relative; }
+.uz:hover { border-color:var(--accent); background:rgba(59,130,246,.03); }
+.uz.has-img { border-style:solid; padding:0; border-color:var(--border); }
+.uz-icon { font-size:24px; margin-bottom:6px; }
+.uz-text { font-size:12px; color:var(--muted); }
+.uz-text strong { color:var(--accent); }
+.uz-preview { width:100%; height:160px; object-fit:cover; border-radius:7px; display:block; }
+.uz-remove { position:absolute; top:7px; right:7px; background:rgba(0,0,0,.75); border:none; color:white; border-radius:5px; padding:3px 8px; cursor:pointer; font-size:11px; font-family:'Inter',sans-serif; }
+
+/* ── COLORS ── */
+.colors-row { display:flex; flex-wrap:wrap; gap:7px; margin-top:6px; }
+.color-chip { display:flex; align-items:center; gap:5px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:4px 9px; }
+.c-swatch { width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,.15); flex-shrink:0; }
+.c-name { font-size:12px; }
+.c-del { background:none; border:none; color:var(--muted); cursor:pointer; font-size:13px; margin-left:3px; }
+.c-del:hover { color:var(--danger); }
+.add-color-row { display:flex; gap:8px; align-items:center; margin-top:8px; }
+.c-picker { width:38px; height:34px; border-radius:7px; border:1px solid var(--border2); cursor:pointer; padding:2px; background:var(--surface2); }
+.color-preview-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.cp-item { text-align:center; }
+.cp-swatch { width:80px; height:56px; border-radius:7px; position:relative; overflow:hidden; }
+.cp-swatch img { width:100%; height:100%; object-fit:cover; }
+.cp-hue { position:absolute; inset:0; mix-blend-mode:hue; opacity:.6; border-radius:7px; }
+.cp-lbl { font-size:10px; color:var(--muted); margin-top:3px; }
+
+/* ── REVIEWS ── */
+.rev-item { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-bottom:8px; }
+.rev-hdr { display:flex; align-items:center; gap:8px; margin-bottom:5px; flex-wrap:wrap; }
+.rev-name { font-weight:600; font-size:13px; }
+.rev-stars { color:var(--warning); font-size:12px; }
+.rev-text { font-size:13px; color:rgba(255,255,255,.6); line-height:1.5; }
+.rev-actions { display:flex; gap:6px; margin-top:8px; }
+.star-inp { display:flex; gap:3px; }
+.star-btn { background:none; border:none; font-size:20px; cursor:pointer; color:#444; transition:color .1s; padding:0; }
+.star-btn.on { color:var(--warning); }
+
+/* ── ORDER LIST ── */
+.order-list { display:flex; flex-direction:column; gap:7px; }
+.order-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:12px; cursor:grab; user-select:none; transition:border-color .15s; }
+.order-item:hover { border-color:var(--border2); }
+.order-item.dragging { opacity:.35; border-color:var(--accent); }
+.order-item.drag-over { background:rgba(59,130,246,.06); }
+.drag-handle { color:var(--muted2); font-size:15px; }
+.order-thumb { width:44px; height:32px; border-radius:5px; object-fit:cover; background:linear-gradient(135deg,#1a1a2e,#16213e); flex-shrink:0; }
+.order-num { width:26px; height:26px; border-radius:50%; background:var(--surface2); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--accent); flex-shrink:0; }
+.order-info { flex:1; min-width:0; }
+.order-name { font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.order-sub { font-size:11px; color:var(--muted); margin-top:1px; }
+
+/* ── CAT CARDS ── */
+.cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.cat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; position:relative; }
+.cat-card-icon { width:54px; height:54px; border:1px solid var(--border2); border-radius:8px; overflow:hidden; margin-bottom:10px; display:flex; align-items:center; justify-content:center; background:var(--surface2); }
+.cat-card-icon img { width:38px; height:38px; object-fit:contain; }
+.cat-card-name { font-size:13px; font-weight:600; margin-bottom:3px; }
+.cat-card-count { font-size:11px; color:var(--muted); margin-bottom:10px; }
+.cat-delete { position:absolute; top:10px; right:10px; }
+
+/* ── BULK IMPORT ── */
+.import-zone { border:2px dashed var(--border2); border-radius:10px; padding:36px; text-align:center; cursor:pointer; transition:all .15s; position:relative; }
+.import-zone:hover { border-color:var(--accent); background:rgba(59,130,246,.03); }
+.import-zone input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.import-icon { font-size:36px; margin-bottom:10px; }
+.import-title { font-size:14px; font-weight:600; margin-bottom:4px; }
+.import-sub { font-size:12px; color:var(--muted); }
+.template-dl { display:inline-flex; align-items:center; gap:6px; margin-top:12px; font-size:12px; color:var(--accent); cursor:pointer; text-decoration:underline; }
+.import-preview { background:var(--surface2); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-top:16px; max-height:240px; overflow-y:auto; }
+.import-preview table th { font-size:11px; }
+.import-preview table td { font-size:12px; }
+.import-stats { display:flex; gap:10px; margin-top:12px; }
+.import-stat { background:var(--surface2); border:1px solid var(--border); border-radius:7px; padding:8px 14px; font-size:12px; }
+.import-stat strong { display:block; font-size:18px; font-weight:700; color:var(--accent); }
+
+/* ── REVIEWS BULK ── */
+.rev-bulk-tabs { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+.rev-bulk-tab { padding:8px 14px; border-radius:7px; background:var(--surface2); border:1px solid var(--border); cursor:pointer; font-size:13px; font-weight:500; color:var(--muted); transition:all .15s; }
+.rev-bulk-tab.active { background:rgba(59,130,246,.12); color:var(--accent); border-color:rgba(59,130,246,.2); }
+.csv-template { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-family:monospace; font-size:12px; color:var(--muted); margin:8px 0; word-break:break-all; }
+.ai-review-input { min-height:100px; }
+.ai-loading { display:none; align-items:center; gap:10px; color:var(--muted); font-size:13px; margin-top:10px; }
+.ai-loading.show { display:flex; }
+.spinner { width:18px; height:18px; border:2px solid var(--border2); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── TOAST ── */
+.toast { position:fixed; bottom:24px; right:24px; background:var(--surface); border:1px solid var(--border2); border-radius:9px; padding:11px 16px; font-size:13px; font-weight:500; z-index:9999; display:flex; align-items:center; gap:9px; box-shadow:0 8px 32px rgba(0,0,0,.4); transform:translateY(80px); opacity:0; transition:all .3s cubic-bezier(.34,1.56,.64,1); pointer-events:none; }
+.toast.show { transform:translateY(0); opacity:1; }
+
+/* ── MISC ── */
+.empty-state { text-align:center; padding:48px; color:var(--muted); }
+.empty-icon { font-size:36px; margin-bottom:10px; }
+.empty-text { font-size:14px; font-weight:500; margin-bottom:4px; color:var(--text); }
+.empty-sub { font-size:13px; }
+.divider { height:1px; background:var(--border); margin:16px 0; }
+.info-box { background:rgba(59,130,246,.08); border:1px solid rgba(59,130,246,.2); border-radius:8px; padding:10px 14px; font-size:12px; color:#93c5fd; display:flex; gap:8px; align-items:flex-start; margin-bottom:14px; }
+.bulk-actions { display:flex; align-items:center; gap:8px; padding:8px 14px; background:rgba(59,130,246,.07); border:1px solid rgba(59,130,246,.15); border-radius:7px; margin-bottom:12px; }
+.bulk-count { font-size:13px; color:var(--accent); font-weight:600; flex:1; }
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:#2a2a2e; border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">NeoZAP</div>
+    <div class="logo-sub">Admin Panel</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="nav('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
+    <div class="nav-section">Catalogue</div>
+    <div class="nav-item" onclick="nav('cards')"><span class="nav-icon">💳</span>Cards<span class="nav-badge" id="nb-cards">0</span></div>
+    <div class="nav-item" onclick="nav('bulk')"><span class="nav-icon">⚡</span>Bulk Update</div>
+    <div class="nav-item" onclick="nav('categories')"><span class="nav-icon">🏷️</span>Categories</div>
+    <div class="nav-item" onclick="nav('bestsellers')"><span class="nav-icon">⭐</span>Bestsellers & Order</div>
+    <div class="nav-section">Content</div>
+    <div class="nav-item" onclick="nav('reviews')"><span class="nav-icon">💬</span>Reviews<span class="nav-badge" id="nb-reviews">0</span></div>
+    <div class="nav-section">Data</div>
+    <div class="nav-item" onclick="exportJSON()"><span class="nav-icon">↓</span>Export JSON</div>
+    <div class="nav-item" onclick="openImportJSON()"><span class="nav-icon">↑</span>Import JSON</div>
+  </nav>
+  <div class="sidebar-footer">v2.0 · NeoZAP Admin</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost btn-sm" onclick="nav('bulk')">⚡ Bulk Update</button>
+      <button class="btn btn-primary btn-sm" onclick="nav('cards');openCardModal()">+ Add Card</button>
+      <span class="publish-status" id="publish-status"></span>
+      <button class="publish-btn" id="publish-btn" onclick="publishToWebsite()">🚀 Publish to Website</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div id="v-dashboard" class="view active">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">Total Cards</div><div class="stat-val" id="s-total">0</div><div class="stat-sub" id="s-total-sub">in catalogue</div></div>
+        <div class="stat-card"><div class="stat-label">Bestsellers</div><div class="stat-val" id="s-bs">0</div><div class="stat-sub">4 shown on homepage</div></div>
+        <div class="stat-card"><div class="stat-label">Categories</div><div class="stat-val" id="s-cats">0</div><div class="stat-sub green" id="s-cats-sub">active</div></div>
+        <div class="stat-card"><div class="stat-label">Total Reviews</div><div class="stat-val" id="s-revs">0</div><div class="stat-sub">across all cards</div></div>
+        <div class="stat-card"><div class="stat-label">Avg Rating</div><div class="stat-val" id="s-rating">—</div><div class="stat-sub">overall</div></div>
+      </div>
+      <div class="section-hdr"><div class="section-title">Recent Cards</div><button class="btn btn-ghost btn-sm" onclick="nav('cards')">View All →</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Bestseller</th><th>Priority</th><th></th></tr></thead><tbody id="dash-tbody"></tbody></table></div>
+    </div>
+
+    <!-- ═══ CARDS ═══ -->
+    <div id="v-cards" class="view">
+      <div class="section-hdr">
+        <div class="section-title">All Cards (<span id="cards-count">0</span>)</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="f-input" id="cards-search" placeholder="Search cards..." style="width:200px;padding:6px 10px;" oninput="renderCards()">
+          <select class="f-select" id="cards-filter-cat" style="width:140px;padding:6px 10px;" onchange="renderCards()"><option value="">All Categories</option></select>
+          <button class="btn btn-primary btn-sm" onclick="openCardModal()">+ Add Card</button>
+        </div>
+      </div>
+      <div class="card-grid" id="cards-grid"></div>
+    </div>
+
+    <!-- ═══ BULK UPDATE ═══ -->
+    <div id="v-bulk" class="view">
+      <div class="tabs" id="bulk-tabs">
+        <div class="tab active" onclick="switchBulkTab('inline')">📝 Inline Edit</div>
+        <div class="tab" onclick="switchBulkTab('excel')">📊 Excel Import/Export</div>
+      </div>
+
+      <!-- INLINE BULK -->
+      <div id="bulk-inline">
+        <div class="info-box">ℹ️ Edit multiple cards at once. Click Save All Changes when done.</div>
+        <div class="section-hdr">
+          <div id="bulk-selected-info" class="bulk-count">Select rows to edit</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-ghost btn-sm" onclick="bulkSelectAll()">Select All</button>
+            <button class="btn btn-ghost btn-sm" onclick="bulkDeselectAll()">Deselect All</button>
+            <button class="btn btn-danger btn-sm" id="bulk-delete-btn" style="display:none" onclick="bulkDelete()">🗑 Delete Selected</button>
+            <button class="btn btn-primary btn-sm" onclick="saveBulkChanges()">✓ Save All Changes</button>
+          </div>
+        </div>
+        <div class="tbl-wrap bulk-table-wrap">
+          <table class="bulk-table" id="bulk-table">
+            <thead><tr>
+              <th><input type="checkbox" id="bulk-check-all" onchange="bulkToggleAll(this.checked)"></th>
+              <th>Image</th><th style="min-width:140px;">Name</th><th style="min-width:120px;">Category</th>
+              <th style="min-width:90px;">Price (₹)</th><th style="min-width:90px;">Disc. Price</th>
+              <th style="min-width:60px;">Disc %</th><th style="min-width:80px;">Bestseller</th>
+              <th style="min-width:70px;">Priority</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="bulk-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- EXCEL IMPORT/EXPORT -->
+      <div id="bulk-excel" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div>
+            <div class="section-hdr"><div class="section-title">📥 Import from Excel/CSV</div></div>
+            <div class="import-zone" id="excel-zone" onclick="document.getElementById('excel-file').click()">
+              <input type="file" id="excel-file" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleExcelImport(this)">
+              <div class="import-icon">📊</div>
+              <div class="import-title">Drop your Excel or CSV file here</div>
+              <div class="import-sub">Supports .xlsx, .xls, .csv</div>
+              <div class="template-dl" onclick="event.stopPropagation();downloadTemplate()">⬇ Download Template CSV</div>
+            </div>
+            <div id="import-preview-wrap" style="display:none;">
+              <div class="import-stats" id="import-stats"></div>
+              <div class="import-preview" id="import-preview"></div>
+              <div style="display:flex;gap:8px;margin-top:12px;">
+                <button class="btn btn-success btn-sm" onclick="applyImport()">✓ Apply Import</button>
+                <button class="btn btn-ghost btn-sm" onclick="cancelImport()">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="section-hdr"><div class="section-title">📤 Export to Excel/CSV</div></div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px;">
+              <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Export all card data as CSV. Open in Excel, Google Sheets, or Numbers to edit, then re-import.</p>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" checked id="exp-basic" style="accent-color:var(--accent)"> Basic info (name, category, price)</label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" checked id="exp-desc" style="accent-color:var(--accent)"> Description & features</label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" checked id="exp-bs" style="accent-color:var(--accent)"> Bestseller & priority</label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="exp-colors" style="accent-color:var(--accent)"> Colours</label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;"><input type="checkbox" id="exp-reviews" style="accent-color:var(--accent)"> Reviews</label>
+              </div>
+              <button class="btn btn-primary" style="margin-top:16px;width:100%;" onclick="exportCSV()">Export CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CATEGORIES ═══ -->
+    <div id="v-categories" class="view">
+      <div class="section-hdr">
+        <div class="section-title">Categories (<span id="cat-count">0</span>)</div>
+        <button class="btn btn-primary btn-sm" onclick="openAddCatModal()">+ Add Category</button>
+      </div>
+      <div class="cat-grid" id="cat-grid"></div>
+    </div>
+
+    <!-- ═══ BESTSELLERS ═══ -->
+    <div id="v-bestsellers" class="view">
+      <div class="tabs">
+        <div class="tab active" onclick="switchBsTab('homepage')">Homepage (Top 4)</div>
+        <div class="tab" onclick="switchBsTab('all')">All Bestsellers</div>
+      </div>
+      <div id="bs-hp">
+        <div class="info-box">ℹ️ First 4 cards shown on the main landing page hero bestsellers section. Drag to reorder.</div>
+        <div class="order-list" id="bs-hp-list"></div>
+      </div>
+      <div id="bs-all" style="display:none;">
+        <div class="info-box">ℹ️ All bestsellers sorted by priority. Drag to reorder.</div>
+        <div class="order-list" id="bs-all-list"></div>
+      </div>
+    </div>
+
+    <!-- ═══ REVIEWS ═══ -->
+    <div id="v-reviews" class="view">
+      <div class="rev-bulk-tabs">
+        <div class="rev-bulk-tab active" onclick="switchRevTab('all')">📋 All Reviews</div>
+        <div class="rev-bulk-tab" onclick="switchRevTab('add')">✍️ Add Review</div>
+        <div class="rev-bulk-tab" onclick="switchRevTab('csv')">📊 Bulk Import CSV</div>
+        <div class="rev-bulk-tab" onclick="switchRevTab('ai')">✨ AI Generate</div>
+      </div>
+
+      <!-- ALL REVIEWS -->
+      <div id="rtab-all">
+        <div class="section-hdr">
+          <select class="f-select" id="rev-filter" style="width:200px;" onchange="renderAllReviews()"><option value="">All Cards</option></select>
+          <div style="flex:1;"></div>
+          <button class="btn btn-danger btn-sm" id="rev-bulk-delete-btn" style="display:none;" onclick="bulkDeleteReviews()">🗑 Delete Selected</button>
+        </div>
+        <div id="all-reviews-list"></div>
+      </div>
+
+      <!-- ADD SINGLE -->
+      <div id="rtab-add" style="display:none;">
+        <div style="max-width:560px;">
+          <div class="fg">
+            <div class="f-group"><label class="f-label">Card <span class="req">*</span></label><select class="f-select" id="ar-card"></select></div>
+            <div class="f-group"><label class="f-label">Reviewer Name <span class="req">*</span></label><input class="f-input" id="ar-name" placeholder="e.g. Priya S."></div>
+            <div class="f-group">
+              <label class="f-label">Rating</label>
+              <div class="star-inp" id="ar-stars">
+                <button class="star-btn on" onclick="setRevStars('ar',1)">★</button><button class="star-btn on" onclick="setRevStars('ar',2)">★</button>
+                <button class="star-btn on" onclick="setRevStars('ar',3)">★</button><button class="star-btn on" onclick="setRevStars('ar',4)">★</button>
+                <button class="star-btn on" onclick="setRevStars('ar',5)">★</button>
+              </div>
+            </div>
+            <div class="f-group"><label class="f-label">Verified Purchase</label><label class="toggle" style="margin-top:4px;"><input type="checkbox" id="ar-verified" checked><span class="tslider"></span></label></div>
+            <div class="f-group fg-full"><label class="f-label">Review Text <span class="req">*</span></label><textarea class="f-textarea" id="ar-text" placeholder="Customer review..."></textarea></div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:12px;" onclick="addSingleReview()">Save Review</button>
+        </div>
+      </div>
+
+      <!-- BULK CSV -->
+      <div id="rtab-csv" style="display:none;">
+        <div class="info-box">ℹ️ Import reviews in bulk via CSV. Each row is one review.</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Expected CSV format:</div>
+        <div class="csv-template">card_name,reviewer_name,rating,review_text,verified<br>Shahrukh Khan,Priya S.,5,"Amazing card, love it!",true<br>Naruto,Arjun M.,4,"Great quality",true</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;">
+          <button class="btn btn-ghost btn-sm" onclick="downloadReviewTemplate()">⬇ Download Template</button>
+        </div>
+        <div class="import-zone" onclick="document.getElementById('rev-csv-file').click()">
+          <input type="file" id="rev-csv-file" accept=".csv" style="display:none" onchange="handleReviewCSV(this)">
+          <div class="import-icon">📋</div>
+          <div class="import-title">Click to upload Review CSV</div>
+          <div class="import-sub">.csv files only</div>
+        </div>
+        <div id="rev-csv-preview" style="display:none;margin-top:14px;">
+          <div class="import-preview" id="rev-csv-table"></div>
+          <div class="import-stats" id="rev-csv-stats"></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="btn btn-success btn-sm" onclick="applyReviewCSV()">✓ Import Reviews</button>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('rev-csv-preview').style.display='none'">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI GENERATE -->
+      <div id="rtab-ai" style="display:none;">
+        <div class="info-box">✨ Describe the kind of reviews you want and AI will generate them for you.</div>
+        <div style="max-width:620px;">
+          <div class="f-group" style="margin-bottom:12px;"><label class="f-label">Card</label><select class="f-select" id="ai-rev-card"></select></div>
+          <div class="f-group" style="margin-bottom:12px;"><label class="f-label">Number of Reviews</label><input class="f-input" id="ai-rev-count" type="number" value="5" min="1" max="20"></div>
+          <div class="f-group" style="margin-bottom:12px;"><label class="f-label">Tone / Style</label>
+            <select class="f-select" id="ai-rev-tone">
+              <option value="genuine indian customers">Genuine Indian customers</option>
+              <option value="excited and enthusiastic">Excited & enthusiastic</option>
+              <option value="professional and detailed">Professional & detailed</option>
+              <option value="short and punchy">Short and punchy</option>
+              <option value="mix of all styles">Mixed styles</option>
+            </select>
+          </div>
+          <div class="f-group" style="margin-bottom:12px;"><label class="f-label">Additional Context (optional)</label>
+            <textarea class="f-textarea ai-review-input" id="ai-rev-context" placeholder="e.g. Focus on the metal quality, weight, and delivery experience..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="generateAIReviews()">✨ Generate Reviews</button>
+          <div class="ai-loading" id="ai-loading"><div class="spinner"></div> Generating reviews with AI...</div>
+          <div id="ai-preview" style="margin-top:14px;display:none;">
+            <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Preview — <span id="ai-preview-count"></span> reviews generated:</div>
+            <div id="ai-preview-list"></div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+              <button class="btn btn-success btn-sm" onclick="applyAIReviews()">✓ Add All to Card</button>
+              <button class="btn btn-ghost btn-sm" onclick="generateAIReviews()">🔄 Regenerate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ CARD MODAL ═══ -->
+<div class="overlay" id="modal-card">
+<div class="modal">
+  <div class="modal-hdr">
+    <div class="modal-title" id="modal-card-title">Add New Card</div>
+    <button class="modal-close" onclick="closeModal('modal-card')">✕</button>
+  </div>
+  <div class="modal-body" style="max-height:none;">
+    <div class="tabs" id="card-tabs">
+      <div class="tab active" onclick="switchCardTab('info')">Basic Info</div>
+      <div class="tab" onclick="switchCardTab('images')">Images</div>
+      <div class="tab" onclick="switchCardTab('colors')">Colours</div>
+      <div class="tab" onclick="switchCardTab('reviews')">Reviews</div>
+    </div>
+    <!-- INFO -->
+    <div id="ct-info" class="fg">
+      <div class="f-group fg-full"><label class="f-label">Card Name <span class="req">*</span></label><input class="f-input" id="f-name" placeholder="e.g. Shahrukh Khan"></div>
+      <div class="f-group"><label class="f-label">Category <span class="req">*</span></label><select class="f-select" id="f-cat"></select></div>
+      <div class="f-group"><label class="f-label">SKU</label><input class="f-input" id="f-sku" placeholder="e.g. 2in1"></div>
+      <div class="f-group"><label class="f-label">Actual Price (₹) <span class="req">*</span></label><input class="f-input" id="f-price" type="number" placeholder="3999"></div>
+      <div class="f-group"><label class="f-label">Discounted Price (₹)</label><input class="f-input" id="f-dprice" type="number" placeholder="1700"><div class="f-hint">Leave blank if no discount</div></div>
+      <div class="f-group"><label class="f-label">Discount % Override</label><input class="f-input" id="f-disc" type="number" placeholder="Auto-calculated"><div class="f-hint">e.g. 80 shows "80% OFF"</div></div>
+      <div class="f-group fg-full"><label class="f-label">Description</label><textarea class="f-textarea" id="f-desc"></textarea></div>
+      <div class="f-group fg-full"><label class="f-label">Key Features</label><textarea class="f-textarea" id="f-feats" placeholder="One feature per line"></textarea><div class="f-hint">One per line → shown as bullet points</div></div>
+      <div class="f-group fg-full">
+        <div class="toggle-row"><div><div class="toggle-row-label">Bestseller</div><div class="toggle-row-sub">Appear in Bestseller Collection</div></div><label class="toggle"><input type="checkbox" id="f-bs" onchange="togglePriGroup()"><span class="tslider"></span></label></div>
+      </div>
+      <div class="f-group" id="pri-group" style="display:none;"><label class="f-label">Bestseller Priority</label><input class="f-input" id="f-pri" type="number" min="1" placeholder="1 = first"><div class="f-hint">First 4 by priority appear on homepage</div></div>
+    </div>
+    <!-- IMAGES -->
+    <div id="ct-images" style="display:none;">
+      <div class="fg">
+        <div class="f-group">
+          <label class="f-label">Collection Page Image <span class="req">*</span></label>
+          <div class="f-hint" style="margin-bottom:6px;">Shown in grid on collection page</div>
+          <div class="uz" id="uz-col" onclick="trigUp('u-col')"><input type="file" id="u-col" accept="image/*" style="display:none" onchange="handleUp(this,'col')"><div class="uz-icon">🖼️</div><div class="uz-text"><strong>Click to upload</strong><br>PNG, JPG, WEBP</div></div>
+        </div>
+        <div class="f-group">
+          <label class="f-label">Product Page Image</label>
+          <div class="f-hint" style="margin-bottom:6px;">Chip overlay applied automatically</div>
+          <div class="uz" id="uz-chip" onclick="trigUp('u-chip')"><input type="file" id="u-chip" accept="image/*" style="display:none" onchange="handleUp(this,'chip')"><div class="uz-icon">💳</div><div class="uz-text"><strong>Click to upload</strong><br>Chip will be overlaid</div></div>
+        </div>
+        <div class="f-group fg-full">
+          <label class="f-label">Back of Card Image</label>
+          <div class="f-hint" style="margin-bottom:6px;">The back side of the physical card</div>
+          <div class="uz" id="uz-back" onclick="trigUp('u-back')"><input type="file" id="u-back" accept="image/*" style="display:none" onchange="handleUp(this,'back')"><div class="uz-icon">🔄</div><div class="uz-text"><strong>Click to upload</strong><br>Back card image</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- COLORS -->
+    <div id="ct-colors" style="display:none;">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Each colour creates a hue overlay on all card images. Customers see this as a colour variant selector on the product page.</p>
+      <div class="colors-row" id="m-colors-list"></div>
+      <div class="add-color-row"><input type="color" class="c-picker" id="m-c-picker" value="#c0c0c0"><input class="f-input" id="m-c-name" placeholder="Colour name (e.g. Mirror Silver)" style="flex:1;"><button class="btn btn-ghost btn-sm" onclick="addModalColor()">+ Add</button></div>
+      <div class="divider"></div>
+      <label class="f-label" style="margin-bottom:8px;display:block;">Hue Preview (on uploaded image)</label>
+      <div class="color-preview-row" id="m-color-preview"></div>
+    </div>
+    <!-- REVIEWS -->
+    <div id="ct-reviews" style="display:none;">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Add reviews for this card manually.</p>
+      <div id="m-reviews-list"></div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:10px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Add Review</div>
+        <div class="fg">
+          <div class="f-group"><label class="f-label">Name</label><input class="f-input" id="m-rev-name" placeholder="Reviewer name"></div>
+          <div class="f-group"><label class="f-label">Rating</label><div class="star-inp" id="m-star-inp"><button class="star-btn on" onclick="setRevStars('m',1)">★</button><button class="star-btn on" onclick="setRevStars('m',2)">★</button><button class="star-btn on" onclick="setRevStars('m',3)">★</button><button class="star-btn on" onclick="setRevStars('m',4)">★</button><button class="star-btn on" onclick="setRevStars('m',5)">★</button></div></div>
+          <div class="f-group"><label class="f-label">Verified</label><label class="toggle" style="margin-top:4px;"><input type="checkbox" id="m-rev-ver" checked><span class="tslider"></span></label></div>
+          <div class="f-group fg-full"><label class="f-label">Review Text</label><textarea class="f-textarea" id="m-rev-text"></textarea></div>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="addModalReview()">Add</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-card')">Cancel</button>
+    <button class="btn btn-primary" onclick="saveCard()">Save Card</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ ADD CATEGORY MODAL ═══ -->
+<div class="overlay" id="modal-cat">
+<div class="modal modal-sm">
+  <div class="modal-hdr"><div class="modal-title" id="cat-modal-title">Add Category</div><button class="modal-close" onclick="closeModal('modal-cat')">✕</button></div>
+  <div class="modal-body" style="max-height:none;">
+    <div class="f-group" style="margin-bottom:14px;"><label class="f-label">Category Name <span class="req">*</span></label><input class="f-input" id="cat-name" placeholder="e.g. Mythological"></div>
+    <div class="f-group" style="margin-bottom:14px;"><label class="f-label">Category ID <span class="req">*</span></label><input class="f-input" id="cat-id" placeholder="e.g. mythological (lowercase, no spaces)"><div class="f-hint">Used internally. Lowercase, no spaces or special chars.</div></div>
+    <div class="f-group">
+      <label class="f-label">Category Icon</label>
+      <div class="f-hint" style="margin-bottom:6px;">Upload an icon image (PNG/SVG, transparent bg preferred)</div>
+      <div class="uz" id="uz-cat-icon" onclick="trigUp('u-cat-icon')">
+        <input type="file" id="u-cat-icon" accept="image/*" style="display:none" onchange="handleUp(this,'cat-icon')">
+        <div class="uz-icon">🎨</div><div class="uz-text"><strong>Click to upload</strong><br>Icon image</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-cat')">Cancel</button>
+    <button class="btn btn-primary" onclick="saveCategory()">Save Category</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ IMPORT JSON MODAL ═══ -->
+<div class="overlay" id="modal-import-json">
+<div class="modal modal-sm">
+  <div class="modal-hdr"><div class="modal-title">Import JSON Data</div><button class="modal-close" onclick="closeModal('modal-import-json')">✕</button></div>
+  <div class="modal-body" style="max-height:none;">
+    <div class="info-box">⚠️ This will replace ALL current data. Make sure to export a backup first.</div>
+    <div class="import-zone" onclick="document.getElementById('json-file').click()">
+      <input type="file" id="json-file" accept=".json" style="display:none" onchange="handleJSONImport(this)">
+      <div class="import-icon">📁</div><div class="import-title">Upload JSON file</div><div class="import-sub">Previously exported NeoZAP data</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="t-icon">✅</span><span id="t-msg">Saved!</span></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════
+var DB = { cards:[], categories:[], nextId:1, nextCatId:100 };
+var DEFAULT_CATS = [
+  {id:'exclusive',label:'Exclusive',icon:'https://www.figma.com/api/mcp/asset/85ffc327-8c0a-4b04-b2e0-4a37e8123d29'},
+  {id:'cards',    label:'Cards',    icon:'https://www.figma.com/api/mcp/asset/5d0d0126-7d97-4014-a1b7-f40250f80636'},
+  {id:'animals',  label:'Animals',  icon:'https://www.figma.com/api/mcp/asset/a2bda837-d8c8-418a-b704-119497b6b3af'},
+  {id:'anime',    label:'Anime',    icon:'https://www.figma.com/api/mcp/asset/bd0fcc2d-ffa4-4ad2-8d53-5c92d54e1625'},
+  {id:'royal',    label:'Royal',    icon:'https://www.figma.com/api/mcp/asset/7965b267-45cf-4756-8735-7df519ac34ab'},
+  {id:'signature',label:'Signature',icon:'https://www.figma.com/api/mcp/asset/2bc8e8d4-1ea0-4a9f-83b0-0f573f02bbdd'},
+  {id:'abstract', label:'Abstract', icon:'https://www.figma.com/api/mcp/asset/f92480c9-e933-4241-9f6a-f91c57611ef0'},
+  {id:'games',    label:'Games',    icon:'https://www.figma.com/api/mcp/asset/1e87c11d-7a65-4649-bf9b-05eabf997205'}
+];
+try{ var s=localStorage.getItem('nz_admin_v2'); if(s){DB=JSON.parse(s);} }catch(e){}
+if(!DB.categories||!DB.categories.length) DB.categories=DEFAULT_CATS.map(function(c){return Object.assign({},c);});
+
+function persist(){ try{localStorage.setItem('nz_admin_v2',JSON.stringify(DB));}catch(e){} }
+
+// modal state
+var editId=null, mColors=[], mReviews=[], mStars=5, mImgs={col:null,chip:null,back:null,catIcon:null};
+var importData=null, reviewCSVData=null, aiReviewsData=null;
+var arStars=5, mRevStars=5;
+
+// ═══════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════
+var NAV_TITLES={dashboard:'Dashboard',cards:'Cards',bulk:'Bulk Update',categories:'Categories',bestsellers:'Bestsellers & Order',reviews:'Reviews'};
+
+function nav(id){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.getElementById('v-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  // match by onclick content
+  document.querySelectorAll('.nav-item').forEach(function(n){
+    var oc=n.getAttribute('onclick')||'';
+    if(oc.indexOf("nav('"+id+"')")>-1) n.classList.add('active');
+  });
+  document.getElementById('topbar-title').textContent=NAV_TITLES[id]||id;
+  updateBadges();
+  if(id==='dashboard') renderDashboard();
+  if(id==='cards') renderCards();
+  if(id==='categories') renderCategories();
+  if(id==='bestsellers') renderBestsellers();
+  if(id==='reviews') renderReviewsPage();
+  if(id==='bulk') renderBulkTable();
+}
+
+function updateBadges(){
+  document.getElementById('nb-cards').textContent=DB.cards.length;
+  var total=DB.cards.reduce(function(a,c){return a+(c.reviews||[]).length;},0);
+  document.getElementById('nb-reviews').textContent=total;
+}
+
+// ═══════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════
+function renderDashboard(){
+  var bs=DB.cards.filter(function(c){return c.bestseller;}).length;
+  var revs=DB.cards.reduce(function(a,c){return a+(c.reviews||[]).length;},0);
+  var allRatings=[];DB.cards.forEach(function(c){(c.reviews||[]).forEach(function(r){allRatings.push(r.rating||5);});});
+  var avg=allRatings.length?( allRatings.reduce(function(a,v){return a+v;},0)/allRatings.length).toFixed(1):'—';
+  document.getElementById('s-total').textContent=DB.cards.length;
+  document.getElementById('s-bs').textContent=bs;
+  document.getElementById('s-cats').textContent=DB.categories.length;
+  document.getElementById('s-cats-sub').textContent='active';
+  document.getElementById('s-revs').textContent=revs;
+  document.getElementById('s-rating').textContent=avg==='—'?'—':avg+'★';
+
+  var html='';
+  DB.cards.slice().sort(function(a,b){return b.id-a.id;}).slice(0,10).forEach(function(c){
+    var dp=c.dprice||c.price, disc=calcDisc(c);
+    html+='<tr><td>'+(c.imgCol?'<img src="'+c.imgCol+'" class="td-img">':'<div class="td-img"></div>')+'</td>'
+      +'<td><strong>'+c.name+'</strong></td>'
+      +'<td><span class="tag tag-cat">'+catLabel(c.category)+'</span></td>'
+      +'<td>₹'+dp+(c.dprice?'<span class="price-old" style="margin-left:6px;">₹'+c.price+'</span>':'')+'</td>'
+      +'<td>'+(c.bestseller?'<span style="color:var(--warning);">★ Yes</span>':'—')+'</td>'
+      +'<td>'+(c.priority?'<span class="tag tag-pri">#'+c.priority+'</span>':'—')+'</td>'
+      +'<td><button class="btn btn-ghost btn-xs" onclick="nav(\'cards\');openCardModal('+c.id+')">Edit</button></td></tr>';
+  });
+  document.getElementById('dash-tbody').innerHTML=html||'<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">No cards yet — <a onclick="nav(\'cards\');openCardModal()" style="color:var(--accent);cursor:pointer;">Add your first card</a></td></tr>';
+  updateBadges();
+}
+
+// ═══════════════════════════════════════════════════════
+// CARDS
+// ═══════════════════════════════════════════════════════
+function renderCards(){
+  populateCatFilter();
+  var q=(document.getElementById('cards-search').value||'').toLowerCase();
+  var cf=document.getElementById('cards-filter-cat').value;
+  var list=DB.cards.filter(function(c){
+    return (!q||c.name.toLowerCase().includes(q))&&(!cf||c.category===cf);
+  });
+  document.getElementById('cards-count').textContent=list.length;
+  if(!list.length){
+    document.getElementById('cards-grid').innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">💳</div><div class="empty-text">No cards found</div><div class="empty-sub">Try a different filter or add a new card</div></div>';
+    return;
+  }
+  var html='';
+  list.forEach(function(c){
+    var disc=calcDisc(c);
+    html+='<div class="prod-card">'
+      +'<div class="prod-card-img">'+(c.imgCol?'<img src="'+c.imgCol+'" alt="">':'<div class="img-placeholder">🖼️</div>')
+      +(disc?'<div class="badge-disc">'+disc+'% OFF</div>':'')
+      +(c.bestseller?'<div class="badge-bs">★ Bestseller</div>':'')
+      +'</div><div class="prod-card-body">'
+      +'<div class="prod-card-name">'+c.name+'</div>'
+      +'<div class="prod-card-meta"><span class="tag tag-cat">'+catLabel(c.category)+'</span>'+(c.priority?'<span class="tag tag-pri">#'+c.priority+'</span>':'')+'</div>'
+      +'<div class="prod-prices"><span class="price-now">₹'+(c.dprice||c.price)+'</span>'+(c.dprice?'<span class="price-old">₹'+c.price+'</span>':'')+(disc?'<span class="price-disc">'+disc+'% off</span>':'')+'</div>'
+      +((c.colors||[]).length?'<div class="prod-colors">'+c.colors.map(function(cl){return'<div class="cdot" style="background:'+cl.hex+'" title="'+cl.name+'"></div>';}).join('')+'</div>':'')
+      +((c.reviews||[]).length?'<div class="star-row">'+starsH(avgR(c.reviews))+' <span style="color:var(--muted);font-size:11px;">('+c.reviews.length+')</span></div>':'')
+      +'<div class="prod-actions"><button class="btn btn-ghost btn-sm" onclick="openCardModal('+c.id+')">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteCard('+c.id+')">Delete</button></div>'
+      +'</div></div>';
+  });
+  document.getElementById('cards-grid').innerHTML=html;
+}
+
+function deleteCard(id){
+  if(!confirm('Delete this card?')) return;
+  DB.cards=DB.cards.filter(function(c){return c.id!==id;});
+  persist(); renderCards(); renderDashboard(); toast('Card deleted','🗑️');
+}
+
+function populateCatFilter(){
+  var sel=document.getElementById('cards-filter-cat');
+  var cur=sel.value;
+  sel.innerHTML='<option value="">All Categories</option>';
+  DB.categories.forEach(function(c){sel.innerHTML+='<option value="'+c.id+'">'+(c.label||c.id)+'</option>';});
+  sel.value=cur;
+}
+
+// ═══════════════════════════════════════════════════════
+// CARD MODAL
+// ═══════════════════════════════════════════════════════
+function openCardModal(id){
+  editId=id||null; mColors=[]; mReviews=[]; mStars=5; mRevStars=5; mImgs={col:null,chip:null,back:null};
+  // Populate category select
+  var sel=document.getElementById('f-cat');
+  sel.innerHTML='';
+  DB.categories.forEach(function(c){sel.innerHTML+='<option value="'+c.id+'">'+(c.label||c.id)+'</option>';});
+
+  ['f-name','f-sku','f-price','f-dprice','f-disc','f-desc','f-feats','f-pri'].forEach(function(k){var e=document.getElementById(k);if(e)e.value='';});
+  document.getElementById('f-bs').checked=false;
+  document.getElementById('pri-group').style.display='none';
+  resetUZ('uz-col','u-col'); resetUZ('uz-chip','u-chip'); resetUZ('uz-back','u-back');
+
+  if(id){
+    var c=DB.cards.find(function(x){return x.id===id;});
+    if(c){
+      document.getElementById('modal-card-title').textContent='Edit Card';
+      document.getElementById('f-name').value=c.name||'';
+      document.getElementById('f-cat').value=c.category||'';
+      document.getElementById('f-sku').value=c.sku||'';
+      document.getElementById('f-price').value=c.price||'';
+      document.getElementById('f-dprice').value=c.dprice||'';
+      document.getElementById('f-disc').value=c.disc||'';
+      document.getElementById('f-desc').value=c.desc||'';
+      document.getElementById('f-feats').value=(c.features||[]).join('\n');
+      document.getElementById('f-bs').checked=!!c.bestseller;
+      if(c.bestseller){document.getElementById('pri-group').style.display='block';document.getElementById('f-pri').value=c.priority||'';}
+      mColors=(c.colors||[]).map(function(x){return Object.assign({},x);});
+      mReviews=(c.reviews||[]).map(function(x){return Object.assign({},x);});
+      if(c.imgCol){mImgs.col=c.imgCol;setUZPreview('uz-col',c.imgCol,false);}
+      if(c.imgChip){mImgs.chip=c.imgChip;setUZPreview('uz-chip',c.imgChip,true);}
+      if(c.imgBack){mImgs.back=c.imgBack;setUZPreview('uz-back',c.imgBack,false);}
+    }
+  } else {
+    document.getElementById('modal-card-title').textContent='Add New Card';
+  }
+  switchCardTab('info');
+  renderMColors(); renderMReviews(); renderColorPreview();
+  document.getElementById('modal-card').classList.add('open');
+}
+
+function switchCardTab(t){
+  ['info','images','colors','reviews'].forEach(function(x){
+    document.getElementById('ct-'+x).style.display=x===t?'':x==='info'?'':'none';
+    if(x==='info') document.getElementById('ct-info').style.display=x===t?'grid':'none';
+  });
+  document.querySelectorAll('#card-tabs .tab').forEach(function(el,i){
+    el.classList.toggle('active',['info','images','colors','reviews'][i]===t);
+  });
+}
+
+function togglePriGroup(){ document.getElementById('pri-group').style.display=document.getElementById('f-bs').checked?'block':'none'; }
+
+function saveCard(){
+  var name=document.getElementById('f-name').value.trim();
+  if(!name){toast('Card name required','⚠️');switchCardTab('info');return;}
+  var cat=document.getElementById('f-cat').value;
+  if(!cat){toast('Select a category','⚠️');switchCardTab('info');return;}
+  if(!mImgs.col){toast('Collection image required','⚠️');switchCardTab('images');return;}
+  var price=parseFloat(document.getElementById('f-price').value)||0;
+  var dprice=parseFloat(document.getElementById('f-dprice').value)||null;
+  var disc=parseFloat(document.getElementById('f-disc').value)||null;
+  if(!disc&&price&&dprice) disc=Math.round((1-dprice/price)*100);
+  var card={
+    id:editId||DB.nextId++,
+    name:name,category:cat,
+    sku:document.getElementById('f-sku').value.trim(),
+    price:price,dprice:dprice,disc:disc,
+    desc:document.getElementById('f-desc').value.trim(),
+    features:document.getElementById('f-feats').value.split('\n').map(function(l){return l.trim();}).filter(Boolean),
+    bestseller:document.getElementById('f-bs').checked,
+    priority:parseInt(document.getElementById('f-pri').value)||null,
+    colors:mColors.slice(),reviews:mReviews.slice(),
+    imgCol:mImgs.col,imgChip:mImgs.chip,imgBack:mImgs.back
+  };
+  if(editId){var i=DB.cards.findIndex(function(c){return c.id===editId;});if(i>-1)DB.cards[i]=card;}
+  else DB.cards.push(card);
+  persist(); closeModal('modal-card'); toast(editId?'Card updated!':'Card added! 🎉');
+  renderCards(); renderDashboard(); renderBulkTable();
+}
+
+// ═══════════════════════════════════════════════════════
+// IMAGE UPLOAD
+// ═══════════════════════════════════════════════════════
+function trigUp(id){ var e=document.getElementById(id); if(e) e.click(); }
+
+function handleUp(input,type){
+  var f=input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){
+    var url=e.target.result;
+    if(type==='col'){mImgs.col=url;setUZPreview('uz-col',url,false);renderColorPreview();}
+    else if(type==='chip'){mImgs.chip=url;setUZPreview('uz-chip',url,true);}
+    else if(type==='back'){mImgs.back=url;setUZPreview('uz-back',url,false);}
+    else if(type==='cat-icon'){mImgs.catIcon=url;setUZPreview('uz-cat-icon',url,false);}
+  };
+  r.readAsDataURL(f);
+}
+
+function setUZPreview(zoneId,url,isChip){
+  var z=document.getElementById(zoneId);
+  z.classList.add('has-img');
+  z.onclick=null;
+  z.innerHTML='<div style="position:relative;">'
+    +(isChip
+      ?'<div style="position:relative;"><img src="'+url+'" style="width:100%;height:160px;object-fit:cover;border-radius:7px;display:block;"><div style="position:absolute;top:50%;left:20px;transform:translateY(-50%);pointer-events:none;">'+chipSVG()+'</div></div>'
+      :'<img src="'+url+'" style="width:100%;height:160px;object-fit:cover;border-radius:7px;display:block;">')
+    +'<button class="uz-remove" onclick="removeUZ(\''+zoneId+'\',\''+( zoneId==='uz-col'?'col':zoneId==='uz-chip'?'chip':zoneId==='uz-back'?'back':'cat-icon' )+'\')">✕ Remove</button>'
+    +'</div>';
+}
+
+function removeUZ(zoneId,type){
+  mImgs[type]=null;
+  resetUZ(zoneId, zoneId.replace('uz-','u-'));
+  if(type==='col') renderColorPreview();
+}
+
+function resetUZ(zoneId,inputId){
+  var z=document.getElementById(zoneId); if(!z) return;
+  z.classList.remove('has-img');
+  var isChip=zoneId==='uz-chip';
+  var icons={'uz-col':'🖼️','uz-chip':'💳','uz-back':'🔄','uz-cat-icon':'🎨'};
+  var texts={'uz-col':'<strong>Click to upload</strong><br>PNG, JPG, WEBP',
+    'uz-chip':'<strong>Click to upload</strong><br>Chip will be overlaid',
+    'uz-back':'<strong>Click to upload</strong><br>Back card image',
+    'uz-cat-icon':'<strong>Click to upload</strong><br>Icon image'};
+  var typeMap={'uz-col':'col','uz-chip':'chip','uz-back':'back','uz-cat-icon':'cat-icon'};
+  z.innerHTML='<input type="file" id="'+inputId+'" accept="image/*" style="display:none" onchange="handleUp(this,\''+typeMap[zoneId]+'\')"><div class="uz-icon">'+icons[zoneId]+'</div><div class="uz-text">'+texts[zoneId]+'</div>';
+  z.onclick=function(){trigUp(inputId);};
+}
+
+function chipSVG(){
+  return '<svg width="52" height="40" viewBox="0 0 52 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x=".5" y=".5" width="51" height="39" rx="5.5" fill="#c8a84b" stroke="#a0882a"/><rect x="3" y="3" width="46" height="34" rx="4" fill="none" stroke="rgba(255,220,100,.6)" stroke-width=".5"/><line x1="17" y1="0" x2="17" y2="40" stroke="rgba(0,0,0,.25)" stroke-width="1"/><line x1="35" y1="0" x2="35" y2="40" stroke="rgba(0,0,0,.25)" stroke-width="1"/><line x1="0" y1="13" x2="52" y2="13" stroke="rgba(0,0,0,.25)" stroke-width="1"/><line x1="0" y1="27" x2="52" y2="27" stroke="rgba(0,0,0,.25)" stroke-width="1"/><rect x="17" y="13" width="18" height="14" rx="2" fill="rgba(180,140,40,.4)"/></svg>';
+}
+
+// ═══════════════════════════════════════════════════════
+// COLORS
+// ═══════════════════════════════════════════════════════
+function addModalColor(){
+  var hex=document.getElementById('m-c-picker').value;
+  var name=document.getElementById('m-c-name').value.trim();
+  if(!name){toast('Enter colour name','⚠️');return;}
+  mColors.push({hex:hex,name:name});
+  document.getElementById('m-c-name').value='';
+  renderMColors(); renderColorPreview();
+}
+
+function removeMColor(i){mColors.splice(i,1);renderMColors();renderColorPreview();}
+
+function renderMColors(){
+  var html='';
+  mColors.forEach(function(c,i){
+    html+='<div class="color-chip"><div class="c-swatch" style="background:'+c.hex+'"></div><span class="c-name">'+c.name+'</span><button class="c-del" onclick="removeMColor('+i+')">✕</button></div>';
+  });
+  document.getElementById('m-colors-list').innerHTML=html||'<span style="color:var(--muted);font-size:12px;">No colours yet</span>';
+}
+
+function renderColorPreview(){
+  var img=mImgs.col;
+  var el=document.getElementById('m-color-preview'); if(!el) return;
+  if(!img){el.innerHTML='<span style="color:var(--muted);font-size:12px;">Upload collection image first</span>';return;}
+  if(!mColors.length){el.innerHTML='<span style="color:var(--muted);font-size:12px;">Add colours to preview</span>';return;}
+  el.innerHTML=mColors.map(function(c){
+    return '<div class="cp-item"><div class="cp-swatch"><img src="'+img+'"><div class="cp-hue" style="background:'+c.hex+'"></div></div><div class="cp-lbl">'+c.name+'</div></div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// REVIEWS (modal)
+// ═══════════════════════════════════════════════════════
+function setRevStars(prefix,n){
+  if(prefix==='m') mRevStars=n;
+  else if(prefix==='ar') arStars=n;
+  var id=prefix==='m'?'m-star-inp':'ar-stars';
+  document.querySelectorAll('#'+id+' .star-btn').forEach(function(b,i){b.classList.toggle('on',i<n);});
+}
+
+function addModalReview(){
+  var name=document.getElementById('m-rev-name').value.trim();
+  var text=document.getElementById('m-rev-text').value.trim();
+  if(!name||!text){toast('Fill name and review','⚠️');return;}
+  mReviews.push({id:Date.now(),name:name,rating:mRevStars,text:text,verified:document.getElementById('m-rev-ver').checked});
+  document.getElementById('m-rev-name').value=''; document.getElementById('m-rev-text').value='';
+  setRevStars('m',5); renderMReviews(); toast('Review added');
+}
+
+function removeModalReview(i){mReviews.splice(i,1);renderMReviews();}
+
+function renderMReviews(){
+  var html='';
+  mReviews.forEach(function(r,i){
+    html+='<div class="rev-item"><div class="rev-hdr"><span class="rev-name">'+r.name+'</span>'+(r.verified?'<span class="tag tag-cat" style="font-size:10px;">Verified</span>':'')+'<span class="rev-stars">'+('★').repeat(r.rating||5)+'</span></div><div class="rev-text">'+r.text+'</div><div class="rev-actions"><button class="btn btn-danger btn-xs" onclick="removeModalReview('+i+')">Delete</button></div></div>';
+  });
+  document.getElementById('m-reviews-list').innerHTML=html||'<div style="color:var(--muted);font-size:12px;margin-bottom:8px;">No reviews yet</div>';
+}
+
+// ═══════════════════════════════════════════════════════
+// BULK INLINE EDIT
+// ═══════════════════════════════════════════════════════
+function switchBulkTab(t){
+  ['inline','excel'].forEach(function(x){
+    document.getElementById('bulk-'+x).style.display=x===t?'':'none';
+  });
+  document.querySelectorAll('#bulk-tabs .tab').forEach(function(el,i){
+    el.classList.toggle('active',['inline','excel'][i]===t);
+  });
+}
+
+function renderBulkTable(){
+  var html='';
+  var catOpts=DB.categories.map(function(c){return'<option value="'+c.id+'">'+(c.label||c.id)+'</option>';}).join('');
+  DB.cards.forEach(function(c){
+    html+='<tr data-id="'+c.id+'">'
+      +'<td><input type="checkbox" class="row-check bulk-row-check" value="'+c.id+'" onchange="updateBulkSelection()"></td>'
+      +'<td>'+(c.imgCol?'<img src="'+c.imgCol+'" class="td-img">':'<div class="td-img"></div>')+'</td>'
+      +'<td><input value="'+esc(c.name)+'" data-field="name" class="bulk-inp"></td>'
+      +'<td><select data-field="category" class="bulk-sel">'+catOpts+'</select></td>'
+      +'<td><input value="'+(c.price||'')+'" data-field="price" type="number" class="bulk-inp"></td>'
+      +'<td><input value="'+(c.dprice||'')+'" data-field="dprice" type="number" class="bulk-inp"></td>'
+      +'<td><input value="'+(c.disc||'')+'" data-field="disc" type="number" class="bulk-inp" placeholder="auto"></td>'
+      +'<td><select data-field="bestseller" class="bulk-sel"><option value="0">No</option><option value="1"'+(c.bestseller?' selected':'')+'>Yes</option></select></td>'
+      +'<td><input value="'+(c.priority||'')+'" data-field="priority" type="number" class="bulk-inp" placeholder="—"></td>'
+      +'<td><button class="btn btn-danger btn-xs" onclick="deleteCard('+c.id+')">Del</button></td>'
+      +'</tr>';
+  });
+  document.getElementById('bulk-tbody').innerHTML=html||'<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted);">No cards yet</td></tr>';
+  // Set select values
+  DB.cards.forEach(function(c){
+    var row=document.querySelector('#bulk-tbody tr[data-id="'+c.id+'"]');
+    if(!row) return;
+    var catSel=row.querySelector('[data-field="category"]');
+    if(catSel) catSel.value=c.category;
+  });
+  updateBulkSelection();
+}
+
+function updateBulkSelection(){
+  var checked=document.querySelectorAll('.bulk-row-check:checked').length;
+  document.getElementById('bulk-selected-info').textContent=checked?checked+' card(s) selected':'Select rows to edit';
+  document.getElementById('bulk-delete-btn').style.display=checked?'':'none';
+}
+
+function bulkSelectAll(){
+  document.querySelectorAll('.bulk-row-check').forEach(function(c){c.checked=true;});
+  document.getElementById('bulk-check-all').checked=true;
+  updateBulkSelection();
+}
+function bulkDeselectAll(){
+  document.querySelectorAll('.bulk-row-check').forEach(function(c){c.checked=false;});
+  document.getElementById('bulk-check-all').checked=false;
+  updateBulkSelection();
+}
+function bulkToggleAll(v){
+  document.querySelectorAll('.bulk-row-check').forEach(function(c){c.checked=v;});
+  updateBulkSelection();
+}
+
+function saveBulkChanges(){
+  var rows=document.querySelectorAll('#bulk-tbody tr[data-id]');
+  var changed=0;
+  rows.forEach(function(row){
+    var id=parseInt(row.getAttribute('data-id'));
+    var card=DB.cards.find(function(c){return c.id===id;});
+    if(!card) return;
+    var name=row.querySelector('[data-field="name"]').value.trim();
+    if(!name) return;
+    card.name=name;
+    card.category=row.querySelector('[data-field="category"]').value;
+    card.price=parseFloat(row.querySelector('[data-field="price"]').value)||0;
+    card.dprice=parseFloat(row.querySelector('[data-field="dprice"]').value)||null;
+    card.disc=parseFloat(row.querySelector('[data-field="disc"]').value)||null;
+    card.bestseller=row.querySelector('[data-field="bestseller"]').value==='1';
+    card.priority=parseInt(row.querySelector('[data-field="priority"]').value)||null;
+    if(!card.disc&&card.price&&card.dprice) card.disc=Math.round((1-card.dprice/card.price)*100);
+    changed++;
+  });
+  persist(); toast(changed+' cards saved! ✓'); renderCards(); renderDashboard();
+}
+
+function bulkDelete(){
+  var checked=Array.from(document.querySelectorAll('.bulk-row-check:checked')).map(function(c){return parseInt(c.value);});
+  if(!checked.length) return;
+  if(!confirm('Delete '+checked.length+' card(s)?')) return;
+  DB.cards=DB.cards.filter(function(c){return!checked.includes(c.id);});
+  persist(); renderBulkTable(); renderCards(); renderDashboard(); toast(checked.length+' cards deleted','🗑️');
+}
+
+// ═══════════════════════════════════════════════════════
+// EXCEL IMPORT / EXPORT
+// ═══════════════════════════════════════════════════════
+var CSV_HEADERS=['id','name','category','sku','price','dprice','disc','bestseller','priority','description','features'];
+
+function downloadTemplate(){
+  var rows=[CSV_HEADERS.join(','),',"Shahrukh Khan",anime,2in1,3999,1599,60,true,1,"Premium 2-in-1 metal card","Premium metallic finish|Laser etching|Chip transfer"'];
+  downloadCSV('neozap-template.csv',rows.join('\n'));
+}
+
+function handleExcelImport(input){
+  var f=input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){
+    var text=e.target.result;
+    var rows=parseCSV(text);
+    if(!rows.length){toast('Empty file','⚠️');return;}
+    importData=rows;
+    showImportPreview(rows);
+  };
+  r.readAsText(f);
+}
+
+function parseCSV(text){
+  var lines=text.trim().split('\n');
+  if(lines.length<2) return [];
+  var headers=lines[0].split(',').map(function(h){return h.replace(/"/g,'').trim();});
+  return lines.slice(1).map(function(line){
+    var vals=line.match(/(".*?"|[^,]+|(?<=,)(?=,)|^(?=,)|(?<=,)$)/g)||[];
+    var obj={};
+    headers.forEach(function(h,i){obj[h]=(vals[i]||'').replace(/"/g,'').trim();});
+    return obj;
+  }).filter(function(r){return r.name;});
+}
+
+function showImportPreview(rows){
+  var stats='<div class="import-stat"><strong>'+rows.length+'</strong>rows found</div>';
+  var new_=rows.filter(function(r){return!r.id||!DB.cards.find(function(c){return''+c.id===r.id;});}).length;
+  var upd=rows.length-new_;
+  stats+='<div class="import-stat"><strong>'+new_+'</strong>new cards</div>';
+  stats+='<div class="import-stat"><strong>'+upd+'</strong>updates</div>';
+  document.getElementById('import-stats').innerHTML=stats;
+  var tbl='<table><thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Disc.Price</th><th>Bestseller</th></tr></thead><tbody>';
+  rows.slice(0,10).forEach(function(r){
+    tbl+='<tr><td>'+esc(r.name||'')+'</td><td>'+esc(r.category||'')+'</td><td>'+(r.price||'')+'</td><td>'+(r.dprice||'')+'</td><td>'+(r.bestseller||'')+'</td></tr>';
+  });
+  if(rows.length>10) tbl+='<tr><td colspan="5" style="text-align:center;color:var(--muted);">...and '+(rows.length-10)+' more</td></tr>';
+  tbl+='</tbody></table>';
+  document.getElementById('import-preview').innerHTML=tbl;
+  document.getElementById('import-preview-wrap').style.display='block';
+}
+
+function applyImport(){
+  if(!importData) return;
+  var added=0,updated=0;
+  importData.forEach(function(r){
+    var existing=r.id?DB.cards.find(function(c){return''+c.id===r.id;}):null;
+    var price=parseFloat(r.price)||0;
+    var dprice=parseFloat(r.dprice)||null;
+    var disc=parseFloat(r.disc)||null;
+    if(!disc&&price&&dprice) disc=Math.round((1-dprice/price)*100);
+    var feats=r.features?(r.features.split('|').map(function(f){return f.trim();})):(existing?existing.features:[]);
+    if(existing){
+      existing.name=r.name||existing.name;
+      existing.category=r.category||existing.category;
+      existing.sku=r.sku||existing.sku;
+      existing.price=price||existing.price;
+      existing.dprice=dprice;
+      existing.disc=disc;
+      existing.desc=r.description||existing.desc;
+      existing.features=feats||existing.features;
+      existing.bestseller=(r.bestseller==='true'||r.bestseller==='1')||existing.bestseller;
+      existing.priority=parseInt(r.priority)||existing.priority;
+      updated++;
+    } else {
+      DB.cards.push({id:DB.nextId++,name:r.name,category:r.category||'exclusive',sku:r.sku||'',price:price,dprice:dprice,disc:disc,desc:r.description||'',features:feats||[],bestseller:r.bestseller==='true'||r.bestseller==='1',priority:parseInt(r.priority)||null,colors:[],reviews:[],imgCol:null,imgChip:null,imgBack:null});
+      added++;
+    }
+  });
+  persist(); importData=null;
+  document.getElementById('import-preview-wrap').style.display='none';
+  renderCards(); renderDashboard(); renderBulkTable();
+  toast(added+' added, '+updated+' updated! ✓');
+}
+
+function cancelImport(){importData=null;document.getElementById('import-preview-wrap').style.display='none';}
+
+function exportCSV(){
+  var incBasic=document.getElementById('exp-basic').checked;
+  var incDesc=document.getElementById('exp-desc').checked;
+  var incBs=document.getElementById('exp-bs').checked;
+  var incColors=document.getElementById('exp-colors').checked;
+  var incRevs=document.getElementById('exp-reviews').checked;
+  var headers=['id','name','category'];
+  if(incBasic) headers=headers.concat(['sku','price','dprice','disc']);
+  if(incDesc) headers=headers.concat(['description','features']);
+  if(incBs) headers=headers.concat(['bestseller','priority']);
+  if(incColors) headers.push('colors');
+  if(incRevs) headers.push('review_count');
+  var rows=[headers.join(',')];
+  DB.cards.forEach(function(c){
+    var row=[c.id,q(c.name),q(c.category)];
+    if(incBasic) row=row.concat([q(c.sku||''),c.price||'',c.dprice||'',c.disc||'']);
+    if(incDesc) row=row.concat([q(c.desc||''),q((c.features||[]).join('|'))]);
+    if(incBs) row=row.concat([c.bestseller?'true':'false',c.priority||'']);
+    if(incColors) row.push(q((c.colors||[]).map(function(cl){return cl.name+':'+cl.hex;}).join('|')));
+    if(incRevs) row.push((c.reviews||[]).length);
+    rows.push(row.join(','));
+  });
+  downloadCSV('neozap-cards.csv',rows.join('\n'));
+  toast('CSV exported!');
+}
+
+function q(s){return'"'+String(s||'').replace(/"/g,'""')+'"';}
+function downloadCSV(name,content){
+  var blob=new Blob([content],{type:'text/csv'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();
+}
+
+// ═══════════════════════════════════════════════════════
+// CATEGORIES
+// ═══════════════════════════════════════════════════════
+function openAddCatModal(){
+  mImgs.catIcon=null;
+  document.getElementById('cat-name').value='';
+  document.getElementById('cat-id').value='';
+  resetUZ('uz-cat-icon','u-cat-icon');
+  document.getElementById('modal-cat').classList.add('open');
+}
+
+function saveCategory(){
+  var name=document.getElementById('cat-name').value.trim();
+  var id=document.getElementById('cat-id').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  if(!name||!id){toast('Name and ID required','⚠️');return;}
+  if(DB.categories.find(function(c){return c.id===id;})){toast('Category ID already exists','⚠️');return;}
+  DB.categories.push({id:id,label:name,icon:mImgs.catIcon||null});
+  persist(); closeModal('modal-cat'); renderCategories(); toast('Category added!');
+}
+
+function deleteCategory(id){
+  var count=DB.cards.filter(function(c){return c.category===id;}).length;
+  if(count>0){toast(count+' cards use this category. Reassign them first.','⚠️');return;}
+  if(!confirm('Delete this category?')) return;
+  DB.categories=DB.categories.filter(function(c){return c.id!==id;});
+  persist(); renderCategories(); toast('Category deleted','🗑️');
+}
+
+function renderCategories(){
+  document.getElementById('cat-count').textContent=DB.categories.length;
+  var html='';
+  DB.categories.forEach(function(c){
+    var count=DB.cards.filter(function(x){return x.category===c.id;}).length;
+    html+='<div class="cat-card">'
+      +'<div class="cat-card-icon">'+(c.icon?'<img src="'+c.icon+'" alt="">':'<span style="font-size:22px;">🏷️</span>')+'</div>'
+      +'<div class="cat-card-name">'+(c.label||c.id)+'</div>'
+      +'<div class="cat-card-count" style="font-size:11px;color:var(--muted);">ID: '+c.id+'</div>'
+      +'<div class="cat-card-count">'+count+' card'+(count!==1?'s':'')+'</div>'
+      +'<div style="display:flex;gap:6px;">'
+      +'<button class="btn btn-ghost btn-sm" onclick="nav(\'cards\')">View Cards</button>'
+      +(!DEFAULT_CATS.find(function(d){return d.id===c.id;})?'<button class="btn btn-danger btn-sm cat-delete" onclick="deleteCategory(\''+c.id+'\')">Delete</button>':'')
+      +'</div></div>';
+  });
+  document.getElementById('cat-grid').innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════
+// BESTSELLERS
+// ═══════════════════════════════════════════════════════
+function switchBsTab(t){
+  document.getElementById('bs-hp').style.display=t==='homepage'?'':'none';
+  document.getElementById('bs-all').style.display=t==='all'?'':'none';
+  document.querySelectorAll('#v-bestsellers .tabs .tab').forEach(function(el,i){
+    el.classList.toggle('active',['homepage','all'][i]===t);
+  });
+}
+
+function renderBestsellers(){
+  var bsCards=DB.cards.filter(function(c){return c.bestseller;}).sort(function(a,b){return(a.priority||99)-(b.priority||99);});
+  makeOrderList('bs-hp-list',bsCards.slice(0,4));
+  makeOrderList('bs-all-list',bsCards);
+}
+
+function makeOrderList(containerId,cards){
+  var html='';
+  cards.forEach(function(c,i){
+    html+='<div class="order-item" draggable="true" data-id="'+c.id+'">'
+      +'<span class="drag-handle">⠿</span>'
+      +'<span class="order-num">'+(i+1)+'</span>'
+      +(c.imgCol?'<img src="'+c.imgCol+'" class="order-thumb">':'<div class="order-thumb"></div>')
+      +'<div class="order-info"><div class="order-name">'+c.name+'</div><div class="order-sub">'+catLabel(c.category)+(c.priority?' · Priority #'+c.priority:'')+'</div></div>'
+      +'<button class="btn btn-ghost btn-xs" onclick="openCardModal('+c.id+')">Edit</button>'
+      +'</div>';
+  });
+  var el=document.getElementById(containerId);
+  el.innerHTML=html||'<div class="empty-state"><div class="empty-icon">⭐</div><div class="empty-text">No bestsellers</div><div class="empty-sub">Mark cards as bestsellers in the Cards section</div></div>';
+  initDrag(el,containerId);
+}
+
+function initDrag(container,listId){
+  var dragged=null;
+  container.querySelectorAll('.order-item').forEach(function(item){
+    item.addEventListener('dragstart',function(e){dragged=item;setTimeout(function(){item.classList.add('dragging');},0);e.dataTransfer.effectAllowed='move';});
+    item.addEventListener('dragend',function(){item.classList.remove('dragging');container.querySelectorAll('.order-item').forEach(function(i){i.classList.remove('drag-over');});saveBsOrder(container);});
+    item.addEventListener('dragover',function(e){e.preventDefault();if(dragged&&dragged!==item){item.classList.add('drag-over');var r=item.getBoundingClientRect();if(e.clientY<r.top+r.height/2)container.insertBefore(dragged,item);else if(item.nextSibling)container.insertBefore(dragged,item.nextSibling);else container.appendChild(dragged);}});
+    item.addEventListener('dragleave',function(){item.classList.remove('drag-over');});
+  });
+}
+
+function saveBsOrder(container){
+  var items=container.querySelectorAll('.order-item[data-id]');
+  items.forEach(function(item,i){
+    var id=parseInt(item.getAttribute('data-id'));
+    var card=DB.cards.find(function(c){return c.id===id;});
+    if(card) card.priority=i+1;
+    // Update number display
+    var numEl=item.querySelector('.order-num');
+    if(numEl) numEl.textContent=i+1;
+  });
+  persist(); toast('Order saved');
+}
+
+// ═══════════════════════════════════════════════════════
+// REVIEWS PAGE
+// ═══════════════════════════════════════════════════════
+function switchRevTab(t){
+  ['all','add','csv','ai'].forEach(function(x){document.getElementById('rtab-'+x).style.display=x===t?'':'none';});
+  document.querySelectorAll('.rev-bulk-tab').forEach(function(el,i){el.classList.toggle('active',['all','add','csv','ai'][i]===t);});
+  if(t==='add'||t==='ai') populateRevCardSelects();
+  if(t==='all') renderAllReviews();
+}
+
+function populateRevCardSelects(){
+  ['ar-card','ai-rev-card'].forEach(function(id){
+    var sel=document.getElementById(id); if(!sel) return;
+    sel.innerHTML=DB.cards.map(function(c){return'<option value="'+c.id+'">'+c.name+'</option>';}).join('');
+  });
+}
+
+function renderReviewsPage(){ renderAllReviews(); }
+
+function renderAllReviews(){
+  var filter=document.getElementById('rev-filter').value;
+  // Update filter dropdown
+  var sel=document.getElementById('rev-filter');
+  var cur=sel.value;
+  sel.innerHTML='<option value="">All Cards</option>';
+  DB.cards.forEach(function(c){sel.innerHTML+='<option value="'+c.id+'">'+c.name+'</option>';});
+  sel.value=cur;
+  filter=sel.value;
+
+  var allRevs=[];
+  DB.cards.forEach(function(c){
+    (c.reviews||[]).forEach(function(r){allRevs.push(Object.assign({},r,{cardId:c.id,cardName:c.name}));});
+  });
+  if(filter) allRevs=allRevs.filter(function(r){return''+r.cardId===filter;});
+
+  var html='';
+  allRevs.forEach(function(r){
+    html+='<div class="rev-item"><div class="rev-hdr"><span class="rev-name">'+r.name+'</span>'+(r.verified?'<span class="tag tag-cat" style="font-size:10px;">Verified</span>':'')+'<span class="rev-stars">'+('★').repeat(r.rating||5)+'</span><span style="margin-left:auto;font-size:11px;color:var(--muted);">'+r.cardName+'</span></div><div class="rev-text">'+r.text+'</div><div class="rev-actions"><button class="btn btn-danger btn-xs" onclick="deleteReview('+r.cardId+','+r.id+')">Delete</button></div></div>';
+  });
+  document.getElementById('all-reviews-list').innerHTML=html||'<div class="empty-state"><div class="empty-icon">💬</div><div class="empty-text">No reviews yet</div><div class="empty-sub">Add reviews via the tabs above</div></div>';
+}
+
+function deleteReview(cardId,revId){
+  var card=DB.cards.find(function(c){return c.id===cardId;});
+  if(!card) return;
+  card.reviews=(card.reviews||[]).filter(function(r){return r.id!==revId;});
+  persist(); renderAllReviews(); updateBadges(); toast('Review deleted','🗑️');
+}
+
+function addSingleReview(){
+  var cardId=parseInt(document.getElementById('ar-card').value);
+  var name=document.getElementById('ar-name').value.trim();
+  var text=document.getElementById('ar-text').value.trim();
+  if(!name||!text){toast('Fill all fields','⚠️');return;}
+  var card=DB.cards.find(function(c){return c.id===cardId;});
+  if(!card){toast('Select a card','⚠️');return;}
+  if(!card.reviews) card.reviews=[];
+  card.reviews.push({id:Date.now(),name:name,rating:arStars,text:text,verified:document.getElementById('ar-verified').checked});
+  persist(); renderAllReviews(); updateBadges();
+  document.getElementById('ar-name').value=''; document.getElementById('ar-text').value='';
+  toast('Review saved! ✓');
+}
+
+// ── BULK CSV REVIEWS ──
+function downloadReviewTemplate(){
+  downloadCSV('neozap-reviews-template.csv','card_name,reviewer_name,rating,review_text,verified\nShahrukh Khan,Priya S.,5,"Amazing card, love it!",true\n"Shahrukh Khan",Arjun M.,4,Great quality and fast delivery,true');
+}
+
+function handleReviewCSV(input){
+  var f=input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){
+    var rows=parseCSV(e.target.result);
+    if(!rows.length){toast('Empty CSV','⚠️');return;}
+    reviewCSVData=rows;
+    // Preview
+    var tbl='<table><thead><tr><th>Card Name</th><th>Reviewer</th><th>Rating</th><th>Text</th><th>Verified</th></tr></thead><tbody>';
+    rows.slice(0,8).forEach(function(r){tbl+='<tr><td>'+esc(r.card_name||'')+'</td><td>'+esc(r.reviewer_name||'')+'</td><td>'+(r.rating||5)+'★</td><td>'+esc((r.review_text||'').substr(0,50))+'...</td><td>'+(r.verified==='true'?'✓':'')+'</td></tr>';});
+    if(rows.length>8) tbl+='<tr><td colspan="5" style="text-align:center;color:var(--muted);">...and '+(rows.length-8)+' more</td></tr>';
+    tbl+='</tbody></table>';
+    var stats='<div class="import-stat"><strong>'+rows.length+'</strong>reviews</div>';
+    document.getElementById('rev-csv-table').innerHTML=tbl;
+    document.getElementById('rev-csv-stats').innerHTML=stats;
+    document.getElementById('rev-csv-preview').style.display='block';
+  };
+  r.readAsText(f);
+}
+
+function applyReviewCSV(){
+  if(!reviewCSVData) return;
+  var added=0,notFound=0;
+  reviewCSVData.forEach(function(r){
+    var card=DB.cards.find(function(c){return c.name.toLowerCase()===( r.card_name||'').toLowerCase();});
+    if(!card){notFound++;return;}
+    if(!card.reviews) card.reviews=[];
+    card.reviews.push({id:Date.now()+added,name:r.reviewer_name||'Anonymous',rating:parseInt(r.rating)||5,text:r.review_text||'',verified:r.verified==='true'||r.verified==='1'});
+    added++;
+  });
+  persist(); reviewCSVData=null;
+  document.getElementById('rev-csv-preview').style.display='none';
+  renderAllReviews(); updateBadges();
+  toast(added+' reviews imported'+(notFound?' ('+notFound+' cards not found)':'')+'!');
+}
+
+// ── AI GENERATE REVIEWS ──
+var aiGenerated=[];
+
+function generateAIReviews(){
+  var cardId=parseInt(document.getElementById('ai-rev-card').value);
+  var card=DB.cards.find(function(c){return c.id===cardId;});
+  if(!card){toast('Select a card','⚠️');return;}
+  var count=parseInt(document.getElementById('ai-rev-count').value)||5;
+  var tone=document.getElementById('ai-rev-tone').value;
+  var context=document.getElementById('ai-rev-context').value.trim();
+
+  document.getElementById('ai-loading').classList.add('show');
+  document.getElementById('ai-preview').style.display='none';
+
+  var prompt='Generate '+count+' realistic customer reviews for a premium metal credit card called "'+card.name+'" by NeoZAP. '
+    +'The card is a '+card.category+' category card. '
+    +(card.desc?'Description: '+card.desc+'. ':'')
+    +'Tone: '+tone+'. '
+    +(context?'Additional context: '+context+'. ':'')
+    +'Return ONLY a JSON array, no markdown, no explanation. Format: '
+    +'[{"name":"Reviewer Name","rating":5,"text":"Review text","verified":true}]. '
+    +'Mix ratings between 4-5 stars. Use Indian names. Keep each review 1-3 sentences.';
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    document.getElementById('ai-loading').classList.remove('show');
+    var text=data.content&&data.content[0]&&data.content[0].text?data.content[0].text:'';
+    // strip markdown fences
+    text=text.replace(/```json|```/g,'').trim();
+    try{
+      aiGenerated=JSON.parse(text);
+      if(!Array.isArray(aiGenerated)) throw new Error('not array');
+      showAIPreview(aiGenerated);
+    }catch(e){
+      toast('Could not parse AI response','⚠️');
+    }
+  })
+  .catch(function(){
+    document.getElementById('ai-loading').classList.remove('show');
+    toast('AI request failed','⚠️');
+  });
+}
+
+function showAIPreview(reviews){
+  document.getElementById('ai-preview-count').textContent=reviews.length;
+  var html='';
+  reviews.forEach(function(r,i){
+    html+='<div class="rev-item"><div class="rev-hdr"><span class="rev-name">'+esc(r.name||'')+'</span>'+(r.verified?'<span class="tag tag-cat" style="font-size:10px;">Verified</span>':'')+'<span class="rev-stars">'+('★').repeat(r.rating||5)+'</span></div><div class="rev-text">'+esc(r.text||'')+'</div></div>';
+  });
+  document.getElementById('ai-preview-list').innerHTML=html;
+  document.getElementById('ai-preview').style.display='block';
+}
+
+function applyAIReviews(){
+  if(!aiGenerated||!aiGenerated.length) return;
+  var cardId=parseInt(document.getElementById('ai-rev-card').value);
+  var card=DB.cards.find(function(c){return c.id===cardId;});
+  if(!card) return;
+  if(!card.reviews) card.reviews=[];
+  aiGenerated.forEach(function(r,i){
+    card.reviews.push({id:Date.now()+i,name:r.name||'Customer',rating:r.rating||5,text:r.text||'',verified:r.verified!==false});
+  });
+  persist(); renderAllReviews(); updateBadges();
+  document.getElementById('ai-preview').style.display='none';
+  toast(aiGenerated.length+' AI reviews added! ✓');
+  aiGenerated=[];
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPORT / IMPORT JSON
+// ═══════════════════════════════════════════════════════
+function exportJSON(){
+  var blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='neozap-data.json';a.click();
+  toast('JSON exported!');
+}
+function openImportJSON(){ document.getElementById('modal-import-json').classList.add('open'); }
+function handleJSONImport(input){
+  var f=input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){
+    try{
+      var d=JSON.parse(e.target.result);
+      if(!d.cards) throw new Error('invalid');
+      DB=d; persist(); closeModal('modal-import-json');
+      renderDashboard(); updateBadges();
+      toast('Data imported! ✓');
+    }catch(e){toast('Invalid JSON file','⚠️');}
+  };
+  r.readAsText(f);
+}
+
+// ═══════════════════════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════════════════════
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.overlay').forEach(function(o){
+  o.addEventListener('click',function(e){if(e.target===o) o.classList.remove('open');});
+});
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function catLabel(id){ var c=DB.categories.find(function(x){return x.id===id;}); return c?c.label:id; }
+function calcDisc(c){ return c.disc||(c.price&&c.dprice?Math.round((1-c.dprice/c.price)*100):null); }
+function avgR(revs){ if(!revs||!revs.length) return 0; return revs.reduce(function(a,r){return a+(r.rating||5);},0)/revs.length; }
+function starsH(n){ var s=''; for(var i=1;i<=5;i++) s+=i<=Math.round(n)?'★':'☆'; return s; }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg,icon){ var t=document.getElementById('toast'); document.getElementById('t-msg').textContent=msg; document.getElementById('t-icon').textContent=icon||'✅'; t.classList.add('show'); clearTimeout(window._tt); window._tt=setTimeout(function(){t.classList.remove('show');},2800); }
+
+
+// ═══════════════════════════════════════════════════════
+// PUBLISH TO WEBSITE
+// ═══════════════════════════════════════════════════════
+var PUBLISH_URL = '/api/publish'; // Vercel URL — update if needed
+
+function setPublishStatus(msg, type) {
+  var el = document.getElementById('publish-status');
+  var btn = document.getElementById('publish-btn');
+  el.textContent = msg;
+  el.className = 'publish-status show ' + type;
+  btn.disabled = type === 'loading';
+  if (type !== 'loading') {
+    setTimeout(function() { el.className = 'publish-status'; btn.disabled = false; }, 4000);
+  }
+}
+
+async function publishToWebsite() {
+  if (!DB.cards.length && !DB.categories.length) {
+    toast('Nothing to publish — add some cards first!', '⚠️');
+    return;
+  }
+
+  setPublishStatus('Publishing...', 'loading');
+
+  // Build clean payload matching the website's data structure
+  var payload = {
+    cards: DB.cards.map(function(c) {
+      return {
+        id: c.id,
+        name: c.name,
+        category: c.category,
+        sku: c.sku || '',
+        price: c.price || 0,
+        dprice: c.dprice || null,
+        disc: c.disc || null,
+        desc: c.desc || '',
+        features: c.features || [],
+        bestseller: !!c.bestseller,
+        priority: c.priority || null,
+        colors: (c.colors || []).map(function(cl) { return { hex: cl.hex, name: cl.name }; }),
+        reviews: (c.reviews || []).map(function(r) { return { id: r.id, name: r.name, rating: r.rating, text: r.text, verified: !!r.verified }; }),
+        imgCol: c.imgCollection || c.imgCol || null,
+        imgChip: c.imgChip || null,
+        imgBack: c.imgBack || null,
+      };
+    }),
+    categories: DB.categories.map(function(c) {
+      return { id: c.id, label: c.label, icon: c.icon || null };
+    }),
+    nextId: DB.nextId,
+    nextCatId: DB.nextCatId || 100,
+    publishedAt: new Date().toISOString(),
+  };
+
+  try {
+    // Try to detect the Vercel URL from current page URL
+    var publishUrl = PUBLISH_URL;
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      publishUrl = window.location.origin + '/api/publish';
+    }
+
+    var res = await fetch(publishUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      setPublishStatus('✓ Published! Site updating in ~2 min', 'success');
+      toast('Published to website! ✓');
+    } else {
+      var err = await res.json();
+      setPublishStatus('Error: ' + (err.error || 'Unknown'), 'error');
+      toast('Publish failed — check console', '⚠️');
+      console.error('Publish error:', err);
+    }
+  } catch (e) {
+    setPublishStatus('Network error — is the site live?', 'error');
+    toast('Could not reach publish endpoint', '⚠️');
+    console.error(e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+renderDashboard();
+</script>
+</body>
+</html>
