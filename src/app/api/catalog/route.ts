@@ -21,17 +21,14 @@ export async function GET() {
   }
 
   try {
-    // Use GitHub API with token — bypasses cache completely
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`
-    
+
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
         Accept: 'application/vnd.github+json',
-        // Add timestamp to bust any CDN cache
-        'Cache-Control': 'no-cache',
       },
-      cache: 'no-store', // Never cache this response
+      cache: 'no-store',
     })
 
     if (!res.ok) {
@@ -39,26 +36,14 @@ export async function GET() {
     }
 
     const file = await res.json()
-    
-    // GitHub returns content as base64
-    const decoded = Buffer.from(file.content, 'base64').toString('utf-8')
-    
-    // Validate JSON before returning
-    let data
-    try {
-      data = JSON.parse(decoded)
-    } catch (parseError) {
-      return NextResponse.json(
-        { error: 'Data file is corrupted. Please publish again from the admin panel.' },
-        { status: 500, headers: CORS }
-      )
-    }
 
-    return NextResponse.json(data, { 
-      headers: {
-        ...CORS,
-        'Cache-Control': 'no-store, max-age=0',
-      }
+    // Strip newlines GitHub adds to base64 content
+    const cleanBase64 = file.content.replace(/\n/g, '')
+    const decoded = Buffer.from(cleanBase64, 'base64').toString('utf-8')
+    const data = JSON.parse(decoded)
+
+    return NextResponse.json(data, {
+      headers: { ...CORS, 'Cache-Control': 'no-store, max-age=0' }
     })
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500, headers: CORS })
