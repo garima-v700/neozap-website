@@ -230,14 +230,14 @@
     {
       "id": 217,
       "name": "gemini",
-      "category": "laser",
+      "category": "signature",
       "sku": "gemini",
       "price": 3999,
       "dprice": 1699,
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -656,14 +656,14 @@
     {
       "id": 223,
       "name": "taurus",
-      "category": "laser",
+      "category": "cards",
       "sku": "taurus",
       "price": 3999,
       "dprice": 1699,
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -885,14 +885,14 @@
     {
       "id": 3,
       "name": "mcduck color",
-      "category": "color",
+      "category": "signature",
       "sku": "mcduck_color",
       "price": 3999,
       "dprice": 1699,
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -9089,5 +9089,5 @@
   ],
   "nextId": 225,
   "nextCatId": 100,
-  "publishedAt": "2026-04-09T08:27:52.668Z"
+  "publishedAt": "2026-04-09T08:30:48.952Z"
 }
