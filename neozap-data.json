@@ -10,7 +10,7 @@
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [],
       "reviews": [],
@@ -28,7 +28,7 @@
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -99,7 +99,7 @@
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -170,7 +170,7 @@
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -9094,5 +9094,5 @@
   ],
   "nextId": 225,
   "nextCatId": 100,
-  "publishedAt": "2026-04-09T10:06:57.185Z"
+  "publishedAt": "2026-04-09T10:08:43.599Z"
 }
