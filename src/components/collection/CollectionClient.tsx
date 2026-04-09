@@ -98,7 +98,7 @@ export default function CollectionClient({ cards, categories }: Props) {
         <div onClick={() => setActiveCat('all')}
           style={{ width: 140, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', paddingBottom: 6 }}>
           <div style={{ width: 100, height: 90, border: `0.3px solid ${activeCat === 'all' ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.35)'}`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: activeCat === 'all' ? 'rgba(255,255,255,0.04)' : 'transparent', transition: 'all .2s' }}>
-            <span style={{ fontSize: 28 }}>💳</span>
+            <img src="/images/categories/catAll.png" alt="All" style={{ width: 64, height: 64, objectFit: 'contain' }} />
           </div>
           <span style={{ marginTop: 10, fontSize: 13, color: 'white', fontWeight: activeCat === 'all' ? 600 : 400 }}>All</span>
           <div style={{ height: 2, width: activeCat === 'all' ? 40 : 0, background: 'white', borderRadius: 2, marginTop: 6, transition: 'width .2s' }} />
