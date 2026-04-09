@@ -3,7 +3,7 @@
     {
       "id": 134,
       "name": "taurus zodiac collection",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "taurus_zodiac_collection",
       "price": 3999,
       "dprice": 1699,
@@ -21,7 +21,7 @@
     {
       "id": 214,
       "name": "aquarius copy",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "aquarius_copy",
       "price": 3999,
       "dprice": 1699,
@@ -92,7 +92,7 @@
     {
       "id": 215,
       "name": "cancer",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "cancer",
       "price": 3999,
       "dprice": 1699,
@@ -163,7 +163,7 @@
     {
       "id": 216,
       "name": "capricorn",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "capricorn",
       "price": 3999,
       "dprice": 1699,
@@ -230,7 +230,7 @@
     {
       "id": 217,
       "name": "gemini",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "gemini",
       "price": 3999,
       "dprice": 1699,
@@ -301,7 +301,7 @@
     {
       "id": 218,
       "name": "leo",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "leo",
       "price": 3999,
       "dprice": 1699,
@@ -372,7 +372,7 @@
     {
       "id": 219,
       "name": "libra",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "libra",
       "price": 3999,
       "dprice": 1699,
@@ -443,7 +443,7 @@
     {
       "id": 220,
       "name": "pisces",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "pisces_1",
       "price": 3999,
       "dprice": 1699,
@@ -514,7 +514,7 @@
     {
       "id": 221,
       "name": "pisces copy",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "pisces_copy",
       "price": 3999,
       "dprice": 1699,
@@ -585,7 +585,7 @@
     {
       "id": 222,
       "name": "scorpio",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "scorpio",
       "price": 3999,
       "dprice": 1699,
@@ -656,7 +656,7 @@
     {
       "id": 223,
       "name": "taurus",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "taurus",
       "price": 3999,
       "dprice": 1699,
@@ -727,7 +727,7 @@
     {
       "id": 224,
       "name": "virgo",
-      "category": "laser",
+      "category": "zodiac",
       "sku": "virgo",
       "price": 3999,
       "dprice": 1699,
@@ -798,7 +798,7 @@
     {
       "id": 1,
       "name": "customized engraved card",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "customized_engraved_card",
       "price": 3999,
       "dprice": 1699,
@@ -885,7 +885,7 @@
     {
       "id": 3,
       "name": "mcduck color",
-      "category": "color",
+      "category": "anime",
       "sku": "mcduck_color",
       "price": 3999,
       "dprice": 1699,
@@ -964,7 +964,7 @@
     {
       "id": 4,
       "name": "premier onyx card",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "premier_onyx_card",
       "price": 3999,
       "dprice": 1699,
@@ -1047,7 +1047,7 @@
     {
       "id": 5,
       "name": "millionaires club card",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "millionaires_club_card",
       "price": 3999,
       "dprice": 1699,
@@ -1126,7 +1126,7 @@
     {
       "id": 6,
       "name": "scrooge reserve",
-      "category": "color",
+      "category": "anime",
       "sku": "scrooge_reserve",
       "price": 3999,
       "dprice": 1699,
@@ -1205,7 +1205,7 @@
     {
       "id": 9,
       "name": "billionaire club limited",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "billionaire_club_limited",
       "price": 3999,
       "dprice": 1699,
@@ -1276,7 +1276,7 @@
     {
       "id": 10,
       "name": "money talks",
-      "category": "color",
+      "category": "games",
       "sku": "money_talks",
       "price": 3999,
       "dprice": 1699,
@@ -1347,7 +1347,7 @@
     {
       "id": 11,
       "name": "momento mori premier card",
-      "category": "color",
+      "category": "exclusive",
       "sku": "momento_mori_premier_card",
       "price": 3999,
       "dprice": 1699,
@@ -1418,7 +1418,7 @@
     {
       "id": 12,
       "name": "name border no design card",
-      "category": "laser",
+      "category": "signature",
       "sku": "name_border_no_design_card",
       "price": 3999,
       "dprice": 1699,
@@ -1497,7 +1497,7 @@
     {
       "id": 13,
       "name": "audi sport",
-      "category": "color",
+      "category": "abstract",
       "sku": "audi_sport_1",
       "price": 3999,
       "dprice": 1699,
@@ -1576,7 +1576,7 @@
     {
       "id": 14,
       "name": "maserati",
-      "category": "laser",
+      "category": "abstract",
       "sku": "maserati_1",
       "price": 3999,
       "dprice": 1699,
@@ -1655,7 +1655,7 @@
     {
       "id": 15,
       "name": "young mcduck",
-      "category": "color",
+      "category": "anime",
       "sku": "young_mcduck",
       "price": 3999,
       "dprice": 1699,
@@ -1734,7 +1734,7 @@
     {
       "id": 16,
       "name": "mcduck s golden chip",
-      "category": "color",
+      "category": "anime",
       "sku": "mcduck_s_golden_chip_1",
       "price": 3999,
       "dprice": 1699,
@@ -1813,7 +1813,7 @@
     {
       "id": 17,
       "name": "exclusive card limited edition",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "exclusive_card_limited_edition",
       "price": 3999,
       "dprice": 1699,
@@ -1831,7 +1831,7 @@
     {
       "id": 18,
       "name": "premier world card",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "premier_world_card",
       "price": 3999,
       "dprice": 1699,
@@ -1910,7 +1910,7 @@
     {
       "id": 19,
       "name": "scarface",
-      "category": "color",
+      "category": "anime",
       "sku": "scarface",
       "price": 3999,
       "dprice": 1699,
@@ -1989,7 +1989,7 @@
     {
       "id": 20,
       "name": "forbes",
-      "category": "color",
+      "category": "exclusive",
       "sku": "forbes",
       "price": 3999,
       "dprice": 1699,
@@ -2060,7 +2060,7 @@
     {
       "id": 21,
       "name": "mcduck card",
-      "category": "laser",
+      "category": "anime",
       "sku": "mcduck_card",
       "price": 3999,
       "dprice": 1699,
@@ -2139,7 +2139,7 @@
     {
       "id": 22,
       "name": "carbon black card studio",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "carbon_black_card_studio",
       "price": 3999,
       "dprice": 1699,
@@ -2157,7 +2157,7 @@
     {
       "id": 23,
       "name": "porshe",
-      "category": "color",
+      "category": "exclusive",
       "sku": "porshe",
       "price": 3999,
       "dprice": 1699,
@@ -2232,7 +2232,7 @@
     {
       "id": 24,
       "name": "fallen",
-      "category": "laser",
+      "category": "anime",
       "sku": "fallen",
       "price": 3999,
       "dprice": 1699,
@@ -2250,7 +2250,7 @@
     {
       "id": 25,
       "name": "american greed",
-      "category": "color",
+      "category": "exclusive",
       "sku": "american_greed",
       "price": 3999,
       "dprice": 1699,
@@ -2321,7 +2321,7 @@
     {
       "id": 26,
       "name": "unlimited",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "unlimited",
       "price": 3999,
       "dprice": 1699,
@@ -2368,7 +2368,7 @@
     {
       "id": 27,
       "name": "wolf of wall street color",
-      "category": "color",
+      "category": "",
       "sku": "wolf_of_wall_street_color",
       "price": 3999,
       "dprice": 1699,
@@ -2447,7 +2447,7 @@
     {
       "id": 28,
       "name": "worldwide millionaire",
-      "category": "laser",
+      "category": "",
       "sku": "worldwide_millionaire",
       "price": 3999,
       "dprice": 1699,
@@ -2526,7 +2526,7 @@
     {
       "id": 29,
       "name": "uno reverse color",
-      "category": "color",
+      "category": "",
       "sku": "uno_reverse_color",
       "price": 3999,
       "dprice": 1699,
@@ -2601,7 +2601,7 @@
     {
       "id": 30,
       "name": "day trader in color",
-      "category": "color",
+      "category": "",
       "sku": "day_trader_in_color",
       "price": 3999,
       "dprice": 1699,
@@ -2680,7 +2680,7 @@
     {
       "id": 31,
       "name": "day trader card",
-      "category": "laser",
+      "category": "",
       "sku": "day_trader_card",
       "price": 3999,
       "dprice": 1699,
@@ -2751,7 +2751,7 @@
     {
       "id": 33,
       "name": "young goku",
-      "category": "color",
+      "category": "",
       "sku": "young_goku",
       "price": 3999,
       "dprice": 1699,
@@ -2830,7 +2830,7 @@
     {
       "id": 34,
       "name": "neon hopper",
-      "category": "color",
+      "category": "",
       "sku": "neon_hopper",
       "price": 3999,
       "dprice": 1699,
@@ -2905,7 +2905,7 @@
     {
       "id": 35,
       "name": "franklin finest card",
-      "category": "laser",
+      "category": "",
       "sku": "franklin_finest_card",
       "price": 3999,
       "dprice": 1699,
@@ -2980,7 +2980,7 @@
     {
       "id": 36,
       "name": "rich uncle franklin card",
-      "category": "laser",
+      "category": "",
       "sku": "rich_uncle_franklin_card",
       "price": 3999,
       "dprice": 1699,
@@ -3047,7 +3047,7 @@
     {
       "id": 37,
       "name": "warrior",
-      "category": "laser",
+      "category": "",
       "sku": "warrior",
       "price": 3999,
       "dprice": 1699,
@@ -3118,7 +3118,7 @@
     {
       "id": 38,
       "name": "char card",
-      "category": "color",
+      "category": "",
       "sku": "char_card",
       "price": 3999,
       "dprice": 1699,
@@ -3193,7 +3193,7 @@
     {
       "id": 39,
       "name": "charizard card",
-      "category": "laser",
+      "category": "",
       "sku": "charizard_card",
       "price": 3999,
       "dprice": 1699,
@@ -3268,7 +3268,7 @@
     {
       "id": 40,
       "name": "blazing charizard",
-      "category": "color",
+      "category": "",
       "sku": "blazing_charizard",
       "price": 3999,
       "dprice": 1699,
@@ -3347,7 +3347,7 @@
     {
       "id": 41,
       "name": "ace of spades card",
-      "category": "laser",
+      "category": "",
       "sku": "ace_of_spades_card",
       "price": 3999,
       "dprice": 1699,
@@ -3426,7 +3426,7 @@
     {
       "id": 42,
       "name": "retro cassette tape copy",
-      "category": "laser",
+      "category": "",
       "sku": "retro_cassette_tape_copy",
       "price": 3999,
       "dprice": 1699,
@@ -3497,7 +3497,7 @@
     {
       "id": 43,
       "name": "king of spades card",
-      "category": "laser",
+      "category": "",
       "sku": "king_of_spades_card",
       "price": 3999,
       "dprice": 1699,
@@ -3576,7 +3576,7 @@
     {
       "id": 44,
       "name": "uno reverse card card",
-      "category": "laser",
+      "category": "",
       "sku": "uno_reverse_card_card",
       "price": 3999,
       "dprice": 1699,
@@ -3655,7 +3655,7 @@
     {
       "id": 45,
       "name": "smiley",
-      "category": "color",
+      "category": "",
       "sku": "smiley",
       "price": 3999,
       "dprice": 1699,
@@ -3734,7 +3734,7 @@
     {
       "id": 46,
       "name": "veni vidi vici",
-      "category": "color",
+      "category": "",
       "sku": "veni_vidi_vici",
       "price": 3999,
       "dprice": 1699,
@@ -3752,7 +3752,7 @@
     {
       "id": 47,
       "name": "samurai color",
-      "category": "color",
+      "category": "",
       "sku": "samurai_color",
       "price": 3999,
       "dprice": 1699,
@@ -3827,7 +3827,7 @@
     {
       "id": 48,
       "name": "lucario",
-      "category": "laser",
+      "category": "",
       "sku": "lucario",
       "price": 3999,
       "dprice": 1699,
@@ -3845,7 +3845,7 @@
     {
       "id": 49,
       "name": "hustlers fortune",
-      "category": "color",
+      "category": "",
       "sku": "hustlers_fortune",
       "price": 3999,
       "dprice": 1699,
@@ -3920,7 +3920,7 @@
     {
       "id": 50,
       "name": "naruto",
-      "category": "color",
+      "category": "",
       "sku": "naruto",
       "price": 3999,
       "dprice": 1699,
@@ -3995,7 +3995,7 @@
     {
       "id": 51,
       "name": "vincent van goku",
-      "category": "color",
+      "category": "",
       "sku": "vincent_van_goku",
       "price": 3999,
       "dprice": 1699,
@@ -4074,7 +4074,7 @@
     {
       "id": 52,
       "name": "signature card card",
-      "category": "laser",
+      "category": "",
       "sku": "signature_card_card",
       "price": 3999,
       "dprice": 1699,
@@ -4153,7 +4153,7 @@
     {
       "id": 53,
       "name": "broke af",
-      "category": "laser",
+      "category": "",
       "sku": "broke_af",
       "price": 3999,
       "dprice": 1699,
@@ -4171,7 +4171,7 @@
     {
       "id": 54,
       "name": "sugar daddy",
-      "category": "laser",
+      "category": "",
       "sku": "sugar_daddy",
       "price": 3999,
       "dprice": 1699,
@@ -4189,7 +4189,7 @@
     {
       "id": 56,
       "name": "rich af",
-      "category": "laser",
+      "category": "",
       "sku": "rich_af",
       "price": 3999,
       "dprice": 1699,
@@ -4207,7 +4207,7 @@
     {
       "id": 57,
       "name": "limited edition card",
-      "category": "laser",
+      "category": "",
       "sku": "limited_edition_card",
       "price": 3999,
       "dprice": 1699,
@@ -4286,7 +4286,7 @@
     {
       "id": 58,
       "name": "broke",
-      "category": "laser",
+      "category": "",
       "sku": "broke",
       "price": 3999,
       "dprice": 1699,
@@ -4304,7 +4304,7 @@
     {
       "id": 59,
       "name": "ancient mew",
-      "category": "laser",
+      "category": "",
       "sku": "ancient_mew_1",
       "price": 3999,
       "dprice": 1699,
@@ -4322,7 +4322,7 @@
     {
       "id": 60,
       "name": "lugia",
-      "category": "laser",
+      "category": "",
       "sku": "lugia",
       "price": 3999,
       "dprice": 1699,
@@ -4340,7 +4340,7 @@
     {
       "id": 61,
       "name": "squirtle squad",
-      "category": "laser",
+      "category": "",
       "sku": "squirtle_squad",
       "price": 3999,
       "dprice": 1699,
@@ -4358,7 +4358,7 @@
     {
       "id": 62,
       "name": "patrick star",
-      "category": "laser",
+      "category": "",
       "sku": "patrick_star",
       "price": 3999,
       "dprice": 1699,
@@ -4376,7 +4376,7 @@
     {
       "id": 63,
       "name": "dragons greed",
-      "category": "color",
+      "category": "",
       "sku": "dragons_greed",
       "price": 3999,
       "dprice": 1699,
@@ -4451,7 +4451,7 @@
     {
       "id": 64,
       "name": "mcduck black",
-      "category": "color",
+      "category": "",
       "sku": "mcduck_black",
       "price": 3999,
       "dprice": 1699,
@@ -4526,7 +4526,7 @@
     {
       "id": 65,
       "name": "dragon card",
-      "category": "laser",
+      "category": "",
       "sku": "dragon_card",
       "price": 3999,
       "dprice": 1699,
@@ -4601,7 +4601,7 @@
     {
       "id": 66,
       "name": "dragon of the east card",
-      "category": "laser",
+      "category": "",
       "sku": "dragon_of_the_east_card",
       "price": 3999,
       "dprice": 1699,
@@ -4676,7 +4676,7 @@
     {
       "id": 67,
       "name": "script dragon card",
-      "category": "laser",
+      "category": "",
       "sku": "script_dragon_card",
       "price": 3999,
       "dprice": 1699,
@@ -4755,7 +4755,7 @@
     {
       "id": 68,
       "name": "the warrior copy",
-      "category": "color",
+      "category": "",
       "sku": "the_warrior_copy_1",
       "price": 3999,
       "dprice": 1699,
@@ -4826,7 +4826,7 @@
     {
       "id": 69,
       "name": "the warrior copy",
-      "category": "color",
+      "category": "",
       "sku": "the_warrior_copy",
       "price": 3999,
       "dprice": 1699,
@@ -4897,7 +4897,7 @@
     {
       "id": 70,
       "name": "iron man",
-      "category": "color",
+      "category": "",
       "sku": "iron_man",
       "price": 3999,
       "dprice": 1699,
@@ -4972,7 +4972,7 @@
     {
       "id": 71,
       "name": "umbrella corporation",
-      "category": "color",
+      "category": "",
       "sku": "umbrella_corporation",
       "price": 3999,
       "dprice": 1699,
@@ -5011,7 +5011,7 @@
     {
       "id": 72,
       "name": "engravencard textured finish",
-      "category": "laser",
+      "category": "",
       "sku": "engravencard_textured_finish",
       "price": 3999,
       "dprice": 1699,
@@ -5038,7 +5038,7 @@
     {
       "id": 74,
       "name": "o p card",
-      "category": "laser",
+      "category": "",
       "sku": "o_p_card",
       "price": 3999,
       "dprice": 1699,
@@ -5117,7 +5117,7 @@
     {
       "id": 75,
       "name": "a cent card",
-      "category": "laser",
+      "category": "",
       "sku": "a_cent_card",
       "price": 3999,
       "dprice": 1699,
@@ -5196,7 +5196,7 @@
     {
       "id": 76,
       "name": "mountain line card",
-      "category": "laser",
+      "category": "",
       "sku": "mountain_line_card",
       "price": 3999,
       "dprice": 1699,
@@ -5275,7 +5275,7 @@
     {
       "id": 77,
       "name": "wolf of wallstreet card",
-      "category": "laser",
+      "category": "",
       "sku": "wolf_of_wallstreet_card",
       "price": 3999,
       "dprice": 1699,
@@ -5350,7 +5350,7 @@
     {
       "id": 78,
       "name": "hokusai wave card",
-      "category": "laser",
+      "category": "",
       "sku": "hokusai_wave_card",
       "price": 3999,
       "dprice": 1699,
@@ -5421,7 +5421,7 @@
     {
       "id": 79,
       "name": "the great wave card",
-      "category": "laser",
+      "category": "",
       "sku": "the_great_wave_card",
       "price": 3999,
       "dprice": 1699,
@@ -5484,7 +5484,7 @@
     {
       "id": 80,
       "name": "trump card",
-      "category": "laser",
+      "category": "",
       "sku": "trump_card",
       "price": 3999,
       "dprice": 1699,
@@ -5563,7 +5563,7 @@
     {
       "id": 81,
       "name": "bitcoin studio studio",
-      "category": "laser",
+      "category": "",
       "sku": "bitcoin_studio_studio",
       "price": 3999,
       "dprice": 1699,
@@ -5581,7 +5581,7 @@
     {
       "id": 82,
       "name": "enigma card",
-      "category": "laser",
+      "category": "",
       "sku": "enigma_card",
       "price": 3999,
       "dprice": 1699,
@@ -5660,7 +5660,7 @@
     {
       "id": 83,
       "name": "rolex",
-      "category": "laser",
+      "category": "",
       "sku": "rolex",
       "price": 3999,
       "dprice": 1699,
@@ -5678,7 +5678,7 @@
     {
       "id": 84,
       "name": "joker card",
-      "category": "laser",
+      "category": "",
       "sku": "joker_card",
       "price": 3999,
       "dprice": 1699,
@@ -5753,7 +5753,7 @@
     {
       "id": 85,
       "name": "never satisfied card",
-      "category": "laser",
+      "category": "",
       "sku": "never_satisfied_card",
       "price": 3999,
       "dprice": 1699,
@@ -5832,7 +5832,7 @@
     {
       "id": 86,
       "name": "hustlers edition card",
-      "category": "laser",
+      "category": "",
       "sku": "hustlers_edition_card",
       "price": 3999,
       "dprice": 1699,
@@ -5907,7 +5907,7 @@
     {
       "id": 87,
       "name": "monopoly man card",
-      "category": "laser",
+      "category": "",
       "sku": "monopoly_man_card",
       "price": 3999,
       "dprice": 1699,
@@ -5982,7 +5982,7 @@
     {
       "id": 88,
       "name": "crypto capitalist card",
-      "category": "laser",
+      "category": "",
       "sku": "crypto_capitalist_card",
       "price": 3999,
       "dprice": 1699,
@@ -6057,7 +6057,7 @@
     {
       "id": 89,
       "name": "ace of monopoly card",
-      "category": "laser",
+      "category": "",
       "sku": "ace_of_monopoly_card",
       "price": 3999,
       "dprice": 1699,
@@ -6104,7 +6104,7 @@
     {
       "id": 90,
       "name": "help me im poor card",
-      "category": "laser",
+      "category": "",
       "sku": "help_me_im_poor_card",
       "price": 3999,
       "dprice": 1699,
@@ -6163,7 +6163,7 @@
     {
       "id": 91,
       "name": "nasa card",
-      "category": "laser",
+      "category": "",
       "sku": "nasa_card",
       "price": 3999,
       "dprice": 1699,
@@ -6242,7 +6242,7 @@
     {
       "id": 92,
       "name": "lighthouse card",
-      "category": "laser",
+      "category": "",
       "sku": "lighthouse_card",
       "price": 3999,
       "dprice": 1699,
@@ -6321,7 +6321,7 @@
     {
       "id": 93,
       "name": "carved pika studio",
-      "category": "laser",
+      "category": "",
       "sku": "carved_pika_studio",
       "price": 3999,
       "dprice": 1699,
@@ -6339,7 +6339,7 @@
     {
       "id": 94,
       "name": "scrooge raining cash card",
-      "category": "laser",
+      "category": "",
       "sku": "scrooge_raining_cash_card",
       "price": 3999,
       "dprice": 1699,
@@ -6418,7 +6418,7 @@
     {
       "id": 95,
       "name": "goyard",
-      "category": "laser",
+      "category": "",
       "sku": "goyard",
       "price": 3999,
       "dprice": 1699,
@@ -6436,7 +6436,7 @@
     {
       "id": 96,
       "name": "treat yoself",
-      "category": "laser",
+      "category": "",
       "sku": "treat_yoself",
       "price": 3999,
       "dprice": 1699,
@@ -6454,7 +6454,7 @@
     {
       "id": 97,
       "name": "mr money card",
-      "category": "laser",
+      "category": "",
       "sku": "mr_money_card",
       "price": 3999,
       "dprice": 1699,
@@ -6525,7 +6525,7 @@
     {
       "id": 98,
       "name": "blastoise card",
-      "category": "laser",
+      "category": "",
       "sku": "blastoise_card",
       "price": 3999,
       "dprice": 1699,
@@ -6588,7 +6588,7 @@
     {
       "id": 99,
       "name": "sprinkle card",
-      "category": "laser",
+      "category": "",
       "sku": "sprinkle_card",
       "price": 3999,
       "dprice": 1699,
@@ -6659,7 +6659,7 @@
     {
       "id": 100,
       "name": "in crypto we trust",
-      "category": "laser",
+      "category": "",
       "sku": "in_crypto_we_trust",
       "price": 3999,
       "dprice": 1699,
@@ -6677,7 +6677,7 @@
     {
       "id": 101,
       "name": "blue eyes white dragon card",
-      "category": "laser",
+      "category": "",
       "sku": "blue_eyes_white_dragon_card",
       "price": 3999,
       "dprice": 1699,
@@ -6740,7 +6740,7 @@
     {
       "id": 102,
       "name": "monopoly boss card",
-      "category": "laser",
+      "category": "",
       "sku": "monopoly_boss_card",
       "price": 3999,
       "dprice": 1699,
@@ -6811,7 +6811,7 @@
     {
       "id": 103,
       "name": "raining monopoly card",
-      "category": "laser",
+      "category": "",
       "sku": "raining_monopoly_card",
       "price": 3999,
       "dprice": 1699,
@@ -6882,7 +6882,7 @@
     {
       "id": 104,
       "name": "aerial studio",
-      "category": "laser",
+      "category": "",
       "sku": "aerial_studio",
       "price": 3999,
       "dprice": 1699,
@@ -6900,7 +6900,7 @@
     {
       "id": 105,
       "name": "hustle card",
-      "category": "laser",
+      "category": "",
       "sku": "hustle_card",
       "price": 3999,
       "dprice": 1699,
@@ -6971,7 +6971,7 @@
     {
       "id": 106,
       "name": "money over b tches",
-      "category": "laser",
+      "category": "",
       "sku": "money_over_b_tches",
       "price": 3999,
       "dprice": 1699,
@@ -6989,7 +6989,7 @@
     {
       "id": 107,
       "name": "kingdom tears card",
-      "category": "laser",
+      "category": "",
       "sku": "kingdom_tears_card",
       "price": 3999,
       "dprice": 1699,
@@ -7048,7 +7048,7 @@
     {
       "id": 108,
       "name": "myers card",
-      "category": "laser",
+      "category": "",
       "sku": "myers_card",
       "price": 3999,
       "dprice": 1699,
@@ -7119,7 +7119,7 @@
     {
       "id": 109,
       "name": "the ring",
-      "category": "laser",
+      "category": "",
       "sku": "the_ring",
       "price": 3999,
       "dprice": 1699,
@@ -7137,7 +7137,7 @@
     {
       "id": 110,
       "name": "engraven gift card",
-      "category": "laser",
+      "category": "",
       "sku": "engraven_gift_card_1",
       "price": 3999,
       "dprice": 1699,
@@ -7164,7 +7164,7 @@
     {
       "id": 111,
       "name": "scream",
-      "category": "laser",
+      "category": "",
       "sku": "scream",
       "price": 3999,
       "dprice": 1699,
@@ -7182,7 +7182,7 @@
     {
       "id": 112,
       "name": "chucky studio",
-      "category": "laser",
+      "category": "",
       "sku": "chucky_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7200,7 +7200,7 @@
     {
       "id": 113,
       "name": "horror squad card",
-      "category": "laser",
+      "category": "",
       "sku": "horror_squad_card",
       "price": 3999,
       "dprice": 1699,
@@ -7243,7 +7243,7 @@
     {
       "id": 114,
       "name": "ace of skull art studio",
-      "category": "laser",
+      "category": "",
       "sku": "ace_of_skull_art_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7261,7 +7261,7 @@
     {
       "id": 115,
       "name": "pennywise",
-      "category": "laser",
+      "category": "",
       "sku": "pennywise",
       "price": 3999,
       "dprice": 1699,
@@ -7279,7 +7279,7 @@
     {
       "id": 116,
       "name": "dementor",
-      "category": "laser",
+      "category": "",
       "sku": "dementor",
       "price": 3999,
       "dprice": 1699,
@@ -7297,7 +7297,7 @@
     {
       "id": 117,
       "name": "bruce lee studio",
-      "category": "laser",
+      "category": "",
       "sku": "bruce_lee_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7315,7 +7315,7 @@
     {
       "id": 118,
       "name": "money well spent",
-      "category": "laser",
+      "category": "",
       "sku": "money_well_spent_1",
       "price": 3999,
       "dprice": 1699,
@@ -7333,7 +7333,7 @@
     {
       "id": 119,
       "name": "all seeing eye studio",
-      "category": "laser",
+      "category": "",
       "sku": "all_seeing_eye_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7351,7 +7351,7 @@
     {
       "id": 120,
       "name": "abstract lambo 1 studio",
-      "category": "laser",
+      "category": "",
       "sku": "abstract_lambo_1_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7369,7 +7369,7 @@
     {
       "id": 121,
       "name": "naruto pain",
-      "category": "laser",
+      "category": "",
       "sku": "naruto_pain",
       "price": 3999,
       "dprice": 1699,
@@ -7387,7 +7387,7 @@
     {
       "id": 122,
       "name": "copy 13 of the engraven card",
-      "category": "laser",
+      "category": "",
       "sku": "copy_13_of_the_engraven_card",
       "price": 3999,
       "dprice": 1699,
@@ -7405,7 +7405,7 @@
     {
       "id": 123,
       "name": "punisher",
-      "category": "laser",
+      "category": "",
       "sku": "punisher_1",
       "price": 3999,
       "dprice": 1699,
@@ -7423,7 +7423,7 @@
     {
       "id": 124,
       "name": "bold eagle studio",
-      "category": "laser",
+      "category": "",
       "sku": "bold_eagle_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7441,7 +7441,7 @@
     {
       "id": 125,
       "name": "topographical",
-      "category": "laser",
+      "category": "",
       "sku": "topographical_1",
       "price": 3999,
       "dprice": 1699,
@@ -7459,7 +7459,7 @@
     {
       "id": 126,
       "name": "bald eagle studio",
-      "category": "laser",
+      "category": "",
       "sku": "bald_eagle_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7477,7 +7477,7 @@
     {
       "id": 127,
       "name": "weight of the world",
-      "category": "laser",
+      "category": "",
       "sku": "weight_of_the_world",
       "price": 3999,
       "dprice": 1699,
@@ -7495,7 +7495,7 @@
     {
       "id": 128,
       "name": "patiently waiting",
-      "category": "laser",
+      "category": "",
       "sku": "patiently_waiting",
       "price": 3999,
       "dprice": 1699,
@@ -7513,7 +7513,7 @@
     {
       "id": 129,
       "name": "international",
-      "category": "laser",
+      "category": "",
       "sku": "international",
       "price": 3999,
       "dprice": 1699,
@@ -7531,7 +7531,7 @@
     {
       "id": 130,
       "name": "old timer",
-      "category": "laser",
+      "category": "",
       "sku": "old_timer_1",
       "price": 3999,
       "dprice": 1699,
@@ -7549,7 +7549,7 @@
     {
       "id": 131,
       "name": "chasing tail studio",
-      "category": "laser",
+      "category": "",
       "sku": "chasing_tail_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7567,7 +7567,7 @@
     {
       "id": 132,
       "name": "patagonia farewell",
-      "category": "laser",
+      "category": "",
       "sku": "patagonia_farewell",
       "price": 3999,
       "dprice": 1699,
@@ -7585,7 +7585,7 @@
     {
       "id": 133,
       "name": "stratton oakmont",
-      "category": "laser",
+      "category": "",
       "sku": "stratton_oakmont",
       "price": 3999,
       "dprice": 1699,
@@ -7603,7 +7603,7 @@
     {
       "id": 135,
       "name": "take risks",
-      "category": "laser",
+      "category": "",
       "sku": "take_risks",
       "price": 3999,
       "dprice": 1699,
@@ -7621,7 +7621,7 @@
     {
       "id": 136,
       "name": "hunter license",
-      "category": "laser",
+      "category": "",
       "sku": "hunter_license",
       "price": 3999,
       "dprice": 1699,
@@ -7639,7 +7639,7 @@
     {
       "id": 137,
       "name": "uno",
-      "category": "laser",
+      "category": "",
       "sku": "uno_4",
       "price": 3999,
       "dprice": 1699,
@@ -7657,7 +7657,7 @@
     {
       "id": 138,
       "name": "retrocam",
-      "category": "laser",
+      "category": "",
       "sku": "retrocam",
       "price": 3999,
       "dprice": 1699,
@@ -7675,7 +7675,7 @@
     {
       "id": 139,
       "name": "copy 7 of the engraven card",
-      "category": "color",
+      "category": "",
       "sku": "copy_7_of_the_engraven_card",
       "price": 3999,
       "dprice": 1699,
@@ -7693,7 +7693,7 @@
     {
       "id": 140,
       "name": "lam",
-      "category": "laser",
+      "category": "",
       "sku": "lam_1",
       "price": 3999,
       "dprice": 1699,
@@ -7711,7 +7711,7 @@
     {
       "id": 141,
       "name": "pablo",
-      "category": "laser",
+      "category": "",
       "sku": "pablo",
       "price": 3999,
       "dprice": 1699,
@@ -7729,7 +7729,7 @@
     {
       "id": 142,
       "name": "fighter pilot",
-      "category": "laser",
+      "category": "",
       "sku": "fighter_pilot",
       "price": 3999,
       "dprice": 1699,
@@ -7747,7 +7747,7 @@
     {
       "id": 143,
       "name": "howl",
-      "category": "laser",
+      "category": "",
       "sku": "howl",
       "price": 3999,
       "dprice": 1699,
@@ -7765,7 +7765,7 @@
     {
       "id": 144,
       "name": "rise grind",
-      "category": "laser",
+      "category": "",
       "sku": "rise_grind",
       "price": 3999,
       "dprice": 1699,
@@ -7783,7 +7783,7 @@
     {
       "id": 145,
       "name": "queen of hearts",
-      "category": "laser",
+      "category": "",
       "sku": "queen_of_hearts",
       "price": 3999,
       "dprice": 1699,
@@ -7801,7 +7801,7 @@
     {
       "id": 146,
       "name": "hard work",
-      "category": "laser",
+      "category": "",
       "sku": "hard_work",
       "price": 3999,
       "dprice": 1699,
@@ -7819,7 +7819,7 @@
     {
       "id": 147,
       "name": "billionaires club studio",
-      "category": "laser",
+      "category": "",
       "sku": "billionaires_club_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7837,7 +7837,7 @@
     {
       "id": 148,
       "name": "batman studio",
-      "category": "laser",
+      "category": "",
       "sku": "batman_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7855,7 +7855,7 @@
     {
       "id": 149,
       "name": "lone wolf",
-      "category": "laser",
+      "category": "",
       "sku": "lone_wolf",
       "price": 3999,
       "dprice": 1699,
@@ -7873,7 +7873,7 @@
     {
       "id": 150,
       "name": "customized multi tool studio",
-      "category": "laser",
+      "category": "",
       "sku": "customized_multi_tool_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7896,7 +7896,7 @@
     {
       "id": 151,
       "name": "freedom express",
-      "category": "laser",
+      "category": "",
       "sku": "freedom_express_1",
       "price": 3999,
       "dprice": 1699,
@@ -7914,7 +7914,7 @@
     {
       "id": 152,
       "name": "benjamin studio",
-      "category": "laser",
+      "category": "",
       "sku": "benjamin_studio",
       "price": 3999,
       "dprice": 1699,
@@ -7932,7 +7932,7 @@
     {
       "id": 153,
       "name": "lady",
-      "category": "laser",
+      "category": "",
       "sku": "lady",
       "price": 3999,
       "dprice": 1699,
@@ -7950,7 +7950,7 @@
     {
       "id": 154,
       "name": "gengar",
-      "category": "laser",
+      "category": "",
       "sku": "gengar",
       "price": 3999,
       "dprice": 1699,
@@ -7968,7 +7968,7 @@
     {
       "id": 155,
       "name": "depths",
-      "category": "laser",
+      "category": "",
       "sku": "depths",
       "price": 3999,
       "dprice": 1699,
@@ -7986,7 +7986,7 @@
     {
       "id": 156,
       "name": "grim",
-      "category": "laser",
+      "category": "",
       "sku": "grim",
       "price": 3999,
       "dprice": 1699,
@@ -8004,7 +8004,7 @@
     {
       "id": 157,
       "name": "jerrel larkins",
-      "category": "laser",
+      "category": "",
       "sku": "jerrel_larkins",
       "price": 3999,
       "dprice": 1699,
@@ -8022,7 +8022,7 @@
     {
       "id": 158,
       "name": "moon dagger",
-      "category": "laser",
+      "category": "",
       "sku": "moon_dagger",
       "price": 3999,
       "dprice": 1699,
@@ -8040,7 +8040,7 @@
     {
       "id": 159,
       "name": "john wick",
-      "category": "laser",
+      "category": "",
       "sku": "john_wick",
       "price": 3999,
       "dprice": 1699,
@@ -8058,7 +8058,7 @@
     {
       "id": 160,
       "name": "thriller",
-      "category": "laser",
+      "category": "",
       "sku": "thriller",
       "price": 3999,
       "dprice": 1699,
@@ -8076,7 +8076,7 @@
     {
       "id": 161,
       "name": "geometric wave",
-      "category": "laser",
+      "category": "",
       "sku": "geometric_wave",
       "price": 3999,
       "dprice": 1699,
@@ -8094,7 +8094,7 @@
     {
       "id": 162,
       "name": "topographical map",
-      "category": "laser",
+      "category": "",
       "sku": "topographical_map",
       "price": 3999,
       "dprice": 1699,
@@ -8112,7 +8112,7 @@
     {
       "id": 163,
       "name": "organic",
-      "category": "laser",
+      "category": "",
       "sku": "organic",
       "price": 3999,
       "dprice": 1699,
@@ -8130,7 +8130,7 @@
     {
       "id": 164,
       "name": "retro wave",
-      "category": "laser",
+      "category": "",
       "sku": "retro_wave",
       "price": 3999,
       "dprice": 1699,
@@ -8148,7 +8148,7 @@
     {
       "id": 165,
       "name": "stay humble hustle hard",
-      "category": "laser",
+      "category": "",
       "sku": "stay_humble_hustle_hard",
       "price": 3999,
       "dprice": 1699,
@@ -8166,7 +8166,7 @@
     {
       "id": 166,
       "name": "war lord",
-      "category": "laser",
+      "category": "",
       "sku": "war_lord",
       "price": 3999,
       "dprice": 1699,
@@ -8184,7 +8184,7 @@
     {
       "id": 167,
       "name": "king queen",
-      "category": "laser",
+      "category": "",
       "sku": "king_queen",
       "price": 3999,
       "dprice": 1699,
@@ -8202,7 +8202,7 @@
     {
       "id": 168,
       "name": "mandala",
-      "category": "laser",
+      "category": "",
       "sku": "mandala_1",
       "price": 3999,
       "dprice": 1699,
@@ -8220,7 +8220,7 @@
     {
       "id": 169,
       "name": "mother nature",
-      "category": "laser",
+      "category": "",
       "sku": "mother_nature",
       "price": 3999,
       "dprice": 1699,
@@ -8238,7 +8238,7 @@
     {
       "id": 170,
       "name": "flowers",
-      "category": "laser",
+      "category": "",
       "sku": "flowers",
       "price": 3999,
       "dprice": 1699,
@@ -8256,7 +8256,7 @@
     {
       "id": 171,
       "name": "hustle hard",
-      "category": "laser",
+      "category": "",
       "sku": "hustle_hard",
       "price": 3999,
       "dprice": 1699,
@@ -8274,7 +8274,7 @@
     {
       "id": 172,
       "name": "suits",
-      "category": "laser",
+      "category": "",
       "sku": "suits",
       "price": 3999,
       "dprice": 1699,
@@ -8292,7 +8292,7 @@
     {
       "id": 173,
       "name": "melting diamond",
-      "category": "laser",
+      "category": "",
       "sku": "melting_diamond",
       "price": 3999,
       "dprice": 1699,
@@ -8310,7 +8310,7 @@
     {
       "id": 174,
       "name": "wave",
-      "category": "laser",
+      "category": "",
       "sku": "wave",
       "price": 3999,
       "dprice": 1699,
@@ -8328,7 +8328,7 @@
     {
       "id": 175,
       "name": "paper plane",
-      "category": "laser",
+      "category": "",
       "sku": "paper_plane",
       "price": 3999,
       "dprice": 1699,
@@ -8346,7 +8346,7 @@
     {
       "id": 176,
       "name": "dead king",
-      "category": "laser",
+      "category": "",
       "sku": "dead_king",
       "price": 3999,
       "dprice": 1699,
@@ -8364,7 +8364,7 @@
     {
       "id": 177,
       "name": "the grind",
-      "category": "laser",
+      "category": "",
       "sku": "the_grind",
       "price": 3999,
       "dprice": 1699,
@@ -8382,7 +8382,7 @@
     {
       "id": 178,
       "name": "mosaic",
-      "category": "laser",
+      "category": "",
       "sku": "mosaic",
       "price": 3999,
       "dprice": 1699,
@@ -8400,7 +8400,7 @@
     {
       "id": 179,
       "name": "shrubbery",
-      "category": "laser",
+      "category": "",
       "sku": "shrubbery",
       "price": 3999,
       "dprice": 1699,
@@ -8418,7 +8418,7 @@
     {
       "id": 180,
       "name": "risk everything",
-      "category": "laser",
+      "category": "",
       "sku": "risk_everything",
       "price": 3999,
       "dprice": 1699,
@@ -8436,7 +8436,7 @@
     {
       "id": 181,
       "name": "invest",
-      "category": "laser",
+      "category": "",
       "sku": "invest",
       "price": 3999,
       "dprice": 1699,
@@ -8454,7 +8454,7 @@
     {
       "id": 182,
       "name": "head of flowers",
-      "category": "laser",
+      "category": "",
       "sku": "head_of_flowers",
       "price": 3999,
       "dprice": 1699,
@@ -8472,7 +8472,7 @@
     {
       "id": 183,
       "name": "daisy collage",
-      "category": "laser",
+      "category": "",
       "sku": "daisy_collage",
       "price": 3999,
       "dprice": 1699,
@@ -8490,7 +8490,7 @@
     {
       "id": 184,
       "name": "ancient egypt studio",
-      "category": "laser",
+      "category": "",
       "sku": "ancient_egypt_studio",
       "price": 3999,
       "dprice": 1699,
@@ -8508,7 +8508,7 @@
     {
       "id": 185,
       "name": "sword",
-      "category": "laser",
+      "category": "",
       "sku": "sword",
       "price": 3999,
       "dprice": 1699,
@@ -8526,7 +8526,7 @@
     {
       "id": 186,
       "name": "train tracks",
-      "category": "laser",
+      "category": "",
       "sku": "train_tracks",
       "price": 3999,
       "dprice": 1699,
@@ -8544,7 +8544,7 @@
     {
       "id": 187,
       "name": "galactic journey",
-      "category": "laser",
+      "category": "",
       "sku": "galactic_journey",
       "price": 3999,
       "dprice": 1699,
@@ -8562,7 +8562,7 @@
     {
       "id": 188,
       "name": "astro man studio",
-      "category": "laser",
+      "category": "",
       "sku": "astro_man_studio",
       "price": 3999,
       "dprice": 1699,
@@ -8580,7 +8580,7 @@
     {
       "id": 189,
       "name": "ufo",
-      "category": "laser",
+      "category": "",
       "sku": "ufo",
       "price": 3999,
       "dprice": 1699,
@@ -8598,7 +8598,7 @@
     {
       "id": 190,
       "name": "hangin out",
-      "category": "laser",
+      "category": "",
       "sku": "hangin_out",
       "price": 3999,
       "dprice": 1699,
@@ -8616,7 +8616,7 @@
     {
       "id": 191,
       "name": "pirate ship",
-      "category": "laser",
+      "category": "",
       "sku": "pirate_ship",
       "price": 3999,
       "dprice": 1699,
@@ -8634,7 +8634,7 @@
     {
       "id": 192,
       "name": "apple card studio",
-      "category": "laser",
+      "category": "",
       "sku": "apple_card_studio",
       "price": 3999,
       "dprice": 1699,
@@ -8652,7 +8652,7 @@
     {
       "id": 193,
       "name": "boise",
-      "category": "laser",
+      "category": "",
       "sku": "boise",
       "price": 3999,
       "dprice": 1699,
@@ -8670,7 +8670,7 @@
     {
       "id": 194,
       "name": "los angeles",
-      "category": "laser",
+      "category": "",
       "sku": "los_angeles",
       "price": 3999,
       "dprice": 1699,
@@ -8688,7 +8688,7 @@
     {
       "id": 195,
       "name": "houston",
-      "category": "laser",
+      "category": "",
       "sku": "houston",
       "price": 3999,
       "dprice": 1699,
@@ -8706,7 +8706,7 @@
     {
       "id": 196,
       "name": "miami",
-      "category": "laser",
+      "category": "",
       "sku": "miami",
       "price": 3999,
       "dprice": 1699,
@@ -8724,7 +8724,7 @@
     {
       "id": 197,
       "name": "san antonio",
-      "category": "laser",
+      "category": "",
       "sku": "san_antonio",
       "price": 3999,
       "dprice": 1699,
@@ -8742,7 +8742,7 @@
     {
       "id": 198,
       "name": "phoenix",
-      "category": "laser",
+      "category": "",
       "sku": "phoenix",
       "price": 3999,
       "dprice": 1699,
@@ -8760,7 +8760,7 @@
     {
       "id": 199,
       "name": "san diego",
-      "category": "laser",
+      "category": "",
       "sku": "san_diego",
       "price": 3999,
       "dprice": 1699,
@@ -8778,7 +8778,7 @@
     {
       "id": 200,
       "name": "new york",
-      "category": "laser",
+      "category": "",
       "sku": "new_york",
       "price": 3999,
       "dprice": 1699,
@@ -8796,7 +8796,7 @@
     {
       "id": 201,
       "name": "hello kitty",
-      "category": "laser",
+      "category": "",
       "sku": "hello_kitty",
       "price": 3999,
       "dprice": 1699,
@@ -8814,7 +8814,7 @@
     {
       "id": 202,
       "name": "mo money mo problem",
-      "category": "laser",
+      "category": "",
       "sku": "mo_money_mo_problem",
       "price": 3999,
       "dprice": 1699,
@@ -8832,7 +8832,7 @@
     {
       "id": 203,
       "name": "b tch money",
-      "category": "laser",
+      "category": "",
       "sku": "b_tch_money",
       "price": 3999,
       "dprice": 1699,
@@ -8850,7 +8850,7 @@
     {
       "id": 204,
       "name": "dont check",
-      "category": "laser",
+      "category": "",
       "sku": "dont_check",
       "price": 3999,
       "dprice": 1699,
@@ -8868,7 +8868,7 @@
     {
       "id": 205,
       "name": "debit",
-      "category": "laser",
+      "category": "",
       "sku": "debit",
       "price": 3999,
       "dprice": 1699,
@@ -8886,7 +8886,7 @@
     {
       "id": 206,
       "name": "grumpy",
-      "category": "laser",
+      "category": "",
       "sku": "grumpy",
       "price": 3999,
       "dprice": 1699,
@@ -8904,7 +8904,7 @@
     {
       "id": 207,
       "name": "money",
-      "category": "laser",
+      "category": "",
       "sku": "money",
       "price": 3999,
       "dprice": 1699,
@@ -8922,7 +8922,7 @@
     {
       "id": 208,
       "name": "peek a boo",
-      "category": "laser",
+      "category": "",
       "sku": "peek_a_boo",
       "price": 3999,
       "dprice": 1699,
@@ -8940,7 +8940,7 @@
     {
       "id": 209,
       "name": "pompompurin",
-      "category": "laser",
+      "category": "",
       "sku": "pompompurin",
       "price": 3999,
       "dprice": 1699,
@@ -8958,7 +8958,7 @@
     {
       "id": 210,
       "name": "blastoise in color",
-      "category": "color",
+      "category": "",
       "sku": "blastoise_in_color",
       "price": 3999,
       "dprice": 1699,
@@ -8976,7 +8976,7 @@
     {
       "id": 213,
       "name": "mcduck color copy",
-      "category": "laser",
+      "category": "",
       "sku": "mcduck_color_copy",
       "price": 3999,
       "dprice": 1699,
@@ -9094,5 +9094,5 @@
   ],
   "nextId": 225,
   "nextCatId": 100,
-  "publishedAt": "2026-04-09T10:06:49.418Z"
+  "publishedAt": "2026-04-09T10:06:57.185Z"
 }
