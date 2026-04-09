@@ -37,7 +37,7 @@ export async function GET() {
 
     const file = await res.json()
 
-    // Strip newlines GitHub adds to base64 content
+    // Strip newlines GitHub adds to base64 — THIS IS THE KEY FIX
     const cleanBase64 = file.content.replace(/\n/g, '')
     const decoded = Buffer.from(cleanBase64, 'base64').toString('utf-8')
     const data = JSON.parse(decoded)
