@@ -727,14 +727,14 @@
     {
       "id": 224,
       "name": "virgo",
-      "category": "laser",
+      "category": "exclusive",
       "sku": "virgo",
       "price": 3999,
       "dprice": 1699,
       "disc": 58,
       "desc": "",
       "features": [],
-      "bestseller": false,
+      "bestseller": true,
       "priority": null,
       "colors": [
         {
@@ -9089,5 +9089,5 @@
   ],
   "nextId": 225,
   "nextCatId": 100,
-  "publishedAt": "2026-04-09T08:21:24.269Z"
+  "publishedAt": "2026-04-09T08:23:11.587Z"
 }
